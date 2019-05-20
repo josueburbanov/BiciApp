@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Coloca el mapa en la posición actual del teléfono y chequea permisos
         setMapsOnCurrentLocation();
 
+
         viewModel = ViewModelProviders.of(this, new MapsViewModelFactory())
                 .get(MapsViewModel.class);
 
@@ -114,6 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
         colocarEstacionEnMapa(null);
     }
 
@@ -134,15 +136,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public boolean onMarkerClick(final Marker marker) {
-        Log.d("TAG","Entra a onMarker");
+    public boolean onMarkerClick(Marker marker) {
         if (marker.getTitle() != "Tú estás aquí") {
-            Log.d("TAG","Entra a mrker.getTitle false");
             Intent intent = new Intent(this, EstacionBicicletasActivity.class);
             intent.putExtra(CLIENT_VIEW, clienteView);
             intent.putExtra(ESTACION_VIEW, (Estacion) marker.getTag());
             startActivity(intent);
-            return true;
+            return false;
         }
         return false;
     }

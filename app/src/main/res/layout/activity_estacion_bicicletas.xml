@@ -7,9 +7,9 @@
     tools:context=".ui.EstacionBicicletasActivity">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="337dp"
-        android:layout_height="60dp"
+        android:id="@+id/titulo_estacion"
+        android:layout_width="373dp"
+        android:layout_height="22dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="27dp"
         android:layout_marginRight="27dp"
@@ -28,12 +28,13 @@
         android:layout_marginRight="29dp"
         android:layout_marginBottom="8dp"
         android:text="@string/mensaje_bicis_estacion"
-        app:layout_constraintBottom_toTopOf="@id/textView2"
+        app:layout_constraintBottom_toTopOf="@id/titulo_estacion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="@id/titulo_estacion"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/bicis_estacion"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
