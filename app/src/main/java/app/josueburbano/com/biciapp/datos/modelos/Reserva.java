@@ -1,6 +1,10 @@
 package app.josueburbano.com.biciapp.datos.modelos;
 
-public class Reserva {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Reserva implements Serializable {
+    private String id;
     private String idBici;
     private String idCliente;
     private String horaInicio;
@@ -45,5 +49,13 @@ public class Reserva {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

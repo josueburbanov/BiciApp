@@ -1,10 +1,9 @@
-package app.josueburbano.com.biciapp.ui;
+package app.josueburbano.com.biciapp.ui.login;
 
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 import android.util.Patterns;
 
 import app.josueburbano.com.biciapp.R;
@@ -69,7 +68,7 @@ public class LoginViewModel extends ViewModel {
 
     public void updateLoginActivityEstado(Cliente cliente) {
         if(cliente != null){
-            loginResultado.setValue(new LoginResultado(new LoginClienteView(cliente.getUsuario())));
+            loginResultado.setValue(new LoginResultado(new LoginClienteView(cliente.getUsuario(), cliente.getId())));
         }else{
             loginResultado.setValue(new LoginResultado(R.string.login_failed));
         }

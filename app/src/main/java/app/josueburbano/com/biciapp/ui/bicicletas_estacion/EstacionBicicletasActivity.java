@@ -1,6 +1,5 @@
-package app.josueburbano.com.biciapp.ui;
+package app.josueburbano.com.biciapp.ui.bicicletas_estacion;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,9 +18,11 @@ import java.util.List;
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
+import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
+import app.josueburbano.com.biciapp.ui.reserva.ReservaActivity;
 
-import static app.josueburbano.com.biciapp.ui.LoginActivity.CLIENT_VIEW;
-import static app.josueburbano.com.biciapp.ui.MapsActivity.ESTACION_VIEW;
+import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
+import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.ESTACION_VIEW;
 
 public class EstacionBicicletasActivity extends AppCompatActivity {
 
@@ -68,9 +68,10 @@ public class EstacionBicicletasActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
                 Bicicleta item = (Bicicleta) adapter.getItemAtPosition(position);
 
-                Intent intent = new Intent(getApplicationContext(),ReservaActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ReservaActivity.class);
                 intent.putExtra(BICICLETA_VIEW, item);
                 intent.putExtra(ESTACION_VIEW, estacionView);
+                intent.putExtra(CLIENT_VIEW, clienteView);
                 startActivity(intent);
             }
         });

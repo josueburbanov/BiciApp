@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui;
+package app.josueburbano.com.biciapp.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import android.support.annotation.StringRes;
 
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
+import app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -81,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                 viewModel.updateLoginActivityEstado(cliente);
             }
         });
-
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override

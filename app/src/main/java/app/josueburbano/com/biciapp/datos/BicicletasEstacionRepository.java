@@ -3,9 +3,7 @@ package app.josueburbano.com.biciapp.datos;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import java.util.List;
-
-import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
+import app.josueburbano.com.biciapp.datos.modelos.BiciEstacion;
 import app.josueburbano.com.biciapp.servicios.IServicioBicisEstacion;
 import app.josueburbano.com.biciapp.servicios.IServicioCliente;
 import retrofit2.Call;
@@ -14,11 +12,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BicicletasRepository {
+public class BicicletasEstacionRepository {
     private IServicioBicisEstacion webservice;
-    private MutableLiveData<List<Bicicleta>> data = new MutableLiveData<>();
+    private MutableLiveData<BiciEstacion> data = new MutableLiveData<>();
 
-    public LiveData<List<Bicicleta>> getBicicletas(String idEstacion) {
+    public LiveData<BiciEstacion> getBiciEstacion(boolean hist, String idBici, String idEstacion) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IServicioCliente.BASE_URL)
@@ -27,10 +25,10 @@ public class BicicletasRepository {
 
         IServicioBicisEstacion service = retrofit.create(IServicioBicisEstacion.class);
 
-        Call<List<Bicicleta>> requestBicisEstacion = service.obtenerBicisByEstacion(idEstacion);
-        requestBicisEstacion.enqueue(new Callback<List<Bicicleta>>() {
+        Call<BiciEstacion> requestBicisEstacion = service.obtenerBiciEstacion(hist, idEstacion, idBici);
+        requestBicisEstacion.enqueue(new Callback<BiciEstacion>() {
             @Override
-            public void onResponse(Call<List<Bicicleta>> call, Response<List<Bicicleta>> response) {
+            public void onResponse(Call<BiciEstacion> call, Response<BiciEstacion> response) {
                 if (!response.isSuccessful()) {
                     data.setValue(null);
                 }else{
@@ -39,15 +37,14 @@ public class BicicletasRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Bicicleta>> call, Throwable t) {
+            public void onFailure(Call<BiciEstacion> call, Throwable t) {
                 data.setValue(null);
             }
         });
         return data;
     }
 
-
-    public MutableLiveData<List<Bicicleta>> getData() {
+    public MutableLiveData<BiciEstacion> getData() {
         return data;
     }
 }

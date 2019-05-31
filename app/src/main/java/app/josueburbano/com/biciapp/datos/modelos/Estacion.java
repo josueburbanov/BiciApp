@@ -7,6 +7,7 @@ public class Estacion implements Serializable {
     private double latitud;
     private String nombre;
     private String id;
+    private String direccion;
 
     public double getLongitud() {
         return longitud;
@@ -24,4 +25,7 @@ public class Estacion implements Serializable {
 
     public String getId(){return id;}
 
+    public String getDireccion() {
+        return direccion;
+    }
 }

@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui;
+package app.josueburbano.com.biciapp.ui.map_estaciones;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,10 +27,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
+import app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
+import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
 import java.util.List;
 
-import static app.josueburbano.com.biciapp.ui.LoginActivity.CLIENT_VIEW;
+import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
@@ -50,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -79,7 +81,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
     }
 
     private void setMapsOnCurrentLocation() {

@@ -37,13 +37,8 @@ public class ClienteRepository {
 
         IServicioCliente service = retrofit.create(IServicioCliente.class);
 
-
-        JsonObject credenciales = new JsonObject();
-        credenciales.addProperty("usuario", usuario);
-        credenciales.addProperty("passw", passw);
-
         //Llamada HTTP
-        Call<Cliente> requestClienteL = service.obtenerClienteLogueado(credenciales);
+        Call<Cliente> requestClienteL = service.obtenerClienteLogueado(usuario,passw);
         requestClienteL.enqueue(new Callback<Cliente>() {
             @Override
             public void onResponse(Call<Cliente> call, Response<Cliente> response) {

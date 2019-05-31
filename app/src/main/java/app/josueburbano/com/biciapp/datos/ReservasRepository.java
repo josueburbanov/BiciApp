@@ -5,9 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.google.gson.JsonObject;
 
-import java.util.Date;
-
-import app.josueburbano.com.biciapp.datos.modelos.Cliente;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.servicios.IServicioCliente;
 import app.josueburbano.com.biciapp.servicios.IServicioReservas;
@@ -29,7 +26,6 @@ public class ReservasRepository {
 
         IServicioReservas service = retrofit.create(IServicioReservas.class);
 
-
         JsonObject reservaJson = new JsonObject();
         reservaJson.addProperty("idBici", reserva.getIdBici());
         reservaJson.addProperty("idCliente", reserva.getIdCliente());
@@ -48,11 +44,9 @@ public class ReservasRepository {
                     data.setValue(response.body());
                 }
             }
-
             @Override
             public void onFailure(Call<Reserva> call, Throwable t) {
                 data.setValue(null);
-
             }
         });
         return data;

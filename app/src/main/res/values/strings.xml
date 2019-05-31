@@ -16,4 +16,24 @@
     <string name="text_location_permission">Se necesita permiso para acceder a la ubicación</string>
     <string name="ok">Correcto!</string>
     <string name="mensaje_bicis_estacion">Las bicicletas disponibles de esta estación son:</string>
+    <string name="format_date_hint">dd/mm/yyyy</string>
+    <string name="entry_startTime">Hora de retiro de la bicicleta</string>
+    <string name="format_time_hint">hh:mm</string>
+    <string name="btn_msg">Reservar</string>
+    <string name="estacion_title">Estación</string>
+    <string name="bicicleta_title">Bicicleta</string>
+    <string name="date_Title">Fecha para la reserva</string>
+    <string name="reserva">Reserva realizada con éxito.</string>
+    <string name="hora_retiro_title">Hora de retiro de la bicicleta</string>
+    <string name="hora_entrega_bicicleta_title">Hora de entrega de la bicicleta</string>
+    <string name="instructions_take_out_title">Instrucciones para el retiro</string>
+    <string name="step_one_instructions_to">1. Su bicicleta está disponible en la estación</string>
+    <string name="step_two_instructions_to">2. Su bicicleta contiene el id:</string>
+    <string name="step_3_instructions_to">"3. El uso de su bicicleta es en la fecha: "</string>
+    <string name="step_4_instructions_to">"4. Pase su tarjeta por el lector para que el candado se abra, no olvide devolver su bicicleta a las "</string>
+    <string name="ubicacion_estacion">en la dirección :</string>
+    <string name="modelo_bicicleta">de modelo:</string>
+    <string name="hora_entrega_bici">a las</string>
+    <string name="button_retirar_title">Retirar</string>
+    <string name="instrucciones_deliver_title">Instrucciones entrega de bicicleta</string>
 </resources>

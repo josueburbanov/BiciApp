@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui;
+package app.josueburbano.com.biciapp.ui.bicicletas_estacion;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

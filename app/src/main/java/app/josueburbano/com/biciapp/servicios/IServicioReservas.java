@@ -8,6 +8,6 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface IServicioReservas {
-    @POST("/ReservasServicio.svc/reservas")
+    @POST("/ReservasServicio.svc/reservas/nueva")
     Call<Reserva> crearNuevaReserva(@Body JsonObject body);
 }

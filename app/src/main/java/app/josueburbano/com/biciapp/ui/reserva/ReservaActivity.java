@@ -1,0 +1,221 @@
+package app.josueburbano.com.biciapp.ui.reserva;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import app.josueburbano.com.biciapp.R;
+import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
+import app.josueburbano.com.biciapp.datos.modelos.Estacion;
+import app.josueburbano.com.biciapp.datos.modelos.Reserva;
+import app.josueburbano.com.biciapp.ui.instrucciones_reserva.InstruccionesRetiroActivity;
+import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
+
+import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
+import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
+import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.ESTACION_VIEW;
+
+public class ReservaActivity extends AppCompatActivity {
+
+    private LoginClienteView clienteView;
+    private Estacion estacionView;
+    private Bicicleta bicicletaView;
+
+    private static final String CERO = "0";
+    private static final String BARRA = "/";
+    private static final String DOS_PUNTOS = ":";
+    public static final String RESERVA_VIEW = "app.josueburbano.com.biciapp.RESERVA";
+
+    EditText dateEditText;
+    EditText startTimeEditText;
+    EditText endTimeEditText;
+
+    public final Calendar c = Calendar.getInstance();
+    //Variables para obtener la fecha
+    int mes = c.get(Calendar.MONTH);
+    int dia = c.get(Calendar.DAY_OF_MONTH);
+    int anio = c.get(Calendar.YEAR);
+    int horaInicio = c.get(Calendar.HOUR_OF_DAY);
+    int minutoInicio = c.get(Calendar.MINUTE);
+    int horaFin = c.get(Calendar.HOUR_OF_DAY);
+    int minutoFin = c.get(Calendar.MINUTE);
+    private ReservaViewModel viewModel;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reserva);
+
+        //Obtener los objetos provenientes de la activity anterior (EstacionBicicletasActivty)
+        Intent intent = getIntent();
+        clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
+        estacionView = (Estacion) intent.getSerializableExtra(ESTACION_VIEW);
+        bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);
+
+        final TextView estacionTextView = findViewById(R.id.step1TextView);
+        final TextView bicicletaTextView = findViewById(R.id.bicicletaTextView);
+        dateEditText = findViewById(R.id.dateEditText);
+        startTimeEditText = findViewById(R.id.startTimeEditText);
+        endTimeEditText = findViewById(R.id.endTimeEditText);
+
+        estacionTextView.setText("Estacion: "+estacionView.getNombre());
+        bicicletaTextView.setText("Bicicleta "+bicicletaView.getModelo()+"< >");
+
+        viewModel = ViewModelProviders.of(this, new ReservaViewModelFactory())
+                .get(ReservaViewModel.class);
+
+        viewModel.getReservaCompletada().observe(this, new Observer<Reserva>() {
+            @Override
+            public void onChanged(@Nullable Reserva reserva) {
+                if (reserva == null) {
+                    return;
+                }
+                if(reserva != null){
+                    String success = getString(R.string.reserva) + reserva.getId();
+                    Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(getApplicationContext(), InstruccionesRetiroActivity.class);
+                    intent.putExtra(RESERVA_VIEW,  reserva);
+                    intent.putExtra(BICICLETA_VIEW, bicicletaView);
+                    intent.putExtra(ESTACION_VIEW, estacionView);
+                    intent.putExtra(CLIENT_VIEW, clienteView);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+    }
+
+    //Método controlador para la acción del Button para desplegar el dialogDate
+    public void selectDate(View view) {
+        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                dateEditText.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+            }
+            //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+            /**
+             *También puede cargar los valores que usted desee
+             */
+        },anio, mes, dia);
+        //Muestro el widget
+        recogerFecha.show();
+    }
+
+    public void selectStartTime(View view) {
+        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+                //Muestro la hora con el formato deseado
+                startTimeEditText.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                horaInicio = hourOfDay;
+                minutoInicio = minute;
+            }
+            //Estos valores deben ir en ese orden
+            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+            //Pero el sistema devuelve la hora en formato 24 horas
+        }, horaInicio, minutoInicio, false);
+
+        recogerHora.show();
+    }
+
+    public void selectEndTime(View view) {
+        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+                //Muestro la hora con el formato deseado
+                endTimeEditText.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                horaFin = hourOfDay;
+                minutoFin = minute;
+            }
+            //Estos valores deben ir en ese orden
+            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+            //Pero el sistema devuelve la hora en formato 24 horas
+        }, horaFin, minutoFin, false);
+
+        recogerHora.show();
+    }
+
+    public void postReserva(View view) {
+        final Reserva reserva = gatherFieldsReserva();
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Confirmación")
+                .setMessage("Fecha: "+reserva.getFecha()+"\n Hora inicial: "+reserva.getHoraInicio()
+                        +"\nHora entrega: "+reserva.getHoraFin()+"\nBiclicleta: "+bicicletaView.getModelo())
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.makeReserva(reserva);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+
+    }
+
+    private Reserva gatherFieldsReserva() {
+        Reserva reserva = new Reserva();
+        reserva.setIdCliente(clienteView.getId());
+        reserva.setIdBici(bicicletaView.getId());
+        Date date = new GregorianCalendar(anio, mes, dia).getTime();
+        reserva.setFecha(DateFormat.format("yyyy/MM/dd", date).toString());
+        Date horaInicioRes = new GregorianCalendar(anio, mes, dia, horaInicio, minutoInicio).getTime();
+        reserva.setHoraInicio(DateFormat.format("HH:mm", horaInicioRes).toString());
+        Date horaFinRes = new GregorianCalendar(anio, mes, dia, horaFin, minutoFin).getTime();
+        reserva.setHoraFin(DateFormat.format("HH:mm", horaFinRes).toString());
+        return reserva;
+    }
+
+}
