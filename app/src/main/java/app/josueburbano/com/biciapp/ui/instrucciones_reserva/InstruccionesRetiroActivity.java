@@ -11,15 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import app.josueburbano.com.biciapp.R;
-import app.josueburbano.com.biciapp.datos.modelos.BiciEstacion;
+import app.josueburbano.com.biciapp.datos.modelos.BiciCandado;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
-import app.josueburbano.com.biciapp.ui.login.LoginViewModel;
-import app.josueburbano.com.biciapp.ui.login.LoginViewModelFactory;
-import app.josueburbano.com.biciapp.ui.reserva.ReservaActivity;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
@@ -67,18 +64,24 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new InstruccionRetiroViewModelFactory())
                 .get(InstruccionesRetiroViewModel.class);
 
-        viewModel.getBiciEstacion().observe(this, new Observer<BiciEstacion>() {
+
+
+        viewModel.getBiciEstacion().observe(this, new Observer<BiciCandado>() {
             @Override
-            public void onChanged(@Nullable BiciEstacion biciEstacion) {
-                if(!biciEstacion.isEnEstacion()){
-                    Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), InstruccionesDevolucionActivity.class);
-                    //intent.putExtra(BICICLETA_VIEW, item);
-                    intent.putExtra(ESTACION_VIEW, estacionView);
-                    intent.putExtra(CLIENT_VIEW, clienteView);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar", Toast.LENGTH_LONG).show();
+            public void onChanged(@Nullable BiciCandado biciCandado) {
+                if (biciCandado == null) {
+                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.1", Toast.LENGTH_LONG).show();
+                } else {
+                    if (biciCandado.getStatusEntregaRecepcion()) {
+                        Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), InstruccionesDevolucionActivity.class);
+                        //intent.putExtra(BICICLETA_VIEW, item);
+                        intent.putExtra(ESTACION_VIEW, estacionView);
+                        intent.putExtra(CLIENT_VIEW, clienteView);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -86,6 +89,6 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
     }
 
     public void retirarBicicleta(View view){
-        viewModel.obtenerBiciEstacion(estacionView.getId(),bicicletaView.getId());
+        viewModel.obtenerBiciEstacion(bicicletaView.getId());
     }
 }

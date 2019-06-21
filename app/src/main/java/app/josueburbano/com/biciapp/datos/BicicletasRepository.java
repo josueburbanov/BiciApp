@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
-import app.josueburbano.com.biciapp.servicios.IServicioBicisEstacion;
+import app.josueburbano.com.biciapp.servicios.IServicioBicisCandados;
 import app.josueburbano.com.biciapp.servicios.IServicioCliente;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,7 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BicicletasRepository {
-    private IServicioBicisEstacion webservice;
+    private IServicioBicisCandados webservice;
     private MutableLiveData<List<Bicicleta>> data = new MutableLiveData<>();
 
     public LiveData<List<Bicicleta>> getBicicletas(String idEstacion) {
@@ -25,7 +25,7 @@ public class BicicletasRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        IServicioBicisEstacion service = retrofit.create(IServicioBicisEstacion.class);
+        IServicioBicisCandados service = retrofit.create(IServicioBicisCandados.class);
 
         Call<List<Bicicleta>> requestBicisEstacion = service.obtenerBicisByEstacion(idEstacion);
         requestBicisEstacion.enqueue(new Callback<List<Bicicleta>>() {

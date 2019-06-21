@@ -11,11 +11,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,7 +37,7 @@ import java.util.List;
 
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final String ESTACION_VIEW = "app.josueburbano.com.biciapp.ESTACION";
@@ -44,7 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager locationManager;
     private MapsViewModel viewModel;
     private LoginClienteView clienteView;
-    private Estacion estacionSeleccionada;
+    private ImageView estacion_icon;
 
 
     @Override
@@ -57,18 +60,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        estacion_icon = (ImageView) findViewById(R.id.imageViewEstacion);
+        estacion_icon.setImageResource(R.drawable.ic_action_name);
+
         //Obtener el usuario proveniente de la activity anterior (Login)
         Intent intent = getIntent();
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
+
 
         //Coloca el mapa en la posición actual del teléfono y chequea permisos
         setMapsOnCurrentLocation();
 
 
+
+
+
         viewModel = ViewModelProviders.of(this, new MapsViewModelFactory())
                 .get(MapsViewModel.class);
 
-        //Retrieve List<Estacion> from WCF
+        //Retrieves List<Estacion> from WCF
         viewModel.obtenerEstacionesX();
 
 
@@ -81,7 +91,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+
+
     }
+
 
     private void setMapsOnCurrentLocation() {
         //Se chequea permisos de uso del GPS
@@ -116,43 +130,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMarkerClickListener(this);
+        //mMap.setOnMarkerClickListener(this);
+        mMap.setInfoWindowAdapter(new InfoAdapter(getLayoutInflater()));
         colocarEstacionEnMapa(null);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if (!marker.getTitle().equals("Tú estás aquí")) {
+                    Intent intent = new Intent(getApplicationContext(), EstacionBicicletasActivity.class);
+                    intent.putExtra(CLIENT_VIEW, clienteView);
+                    intent.putExtra(ESTACION_VIEW, (Estacion) marker.getTag());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void colocarEstacionEnMapa(Estacion estacion) {
-        LatLng posicion;
+
         if (estacion == null) {
-            posicion = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(posicion).title("Tú estás aquí")).showInfoWindow();
-            ;
+            LatLng posicion = new LatLng(latitude, longitude);
+            Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Tú estás aquí"));
+            amarker.setTitle("Tú estás aquí");
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
-        } else {
-            posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
-            Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Estación: " + estacion.getNombre()));
             amarker.showInfoWindow();
+        } else {
+            LatLng posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
+            Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Estación: " + estacion.getNombre()));
+            amarker.setTitle("Estación: " + estacion.getNombre());
+            amarker.setSnippet(estacion.getDireccion());
+            //amarker.showInfoWindow();
             amarker.setTag(estacion);
         }
     }
 
-    @Override
+    /*@Override
     public boolean onMarkerClick(Marker marker) {
-        if (marker.getTitle() != "Tú estás aquí") {
-            Intent intent = new Intent(this, EstacionBicicletasActivity.class);
-            intent.putExtra(CLIENT_VIEW, clienteView);
-            intent.putExtra(ESTACION_VIEW, (Estacion) marker.getTag());
-            startActivity(intent);
-            return false;
-        }
-        return false;
-    }
+            if (!marker.getTitle().equals("Tú estás aquí")) {
+                Log.d("TAG","Entra a tu ");
+                Intent intent = new Intent(this, EstacionBicicletasActivity.class);
+                intent.putExtra(CLIENT_VIEW, clienteView);
+                intent.putExtra(ESTACION_VIEW, (Estacion) marker.getTag());
+                startActivity(intent);
+                return false;
+            }
+        return true;
+    }*/
 
     @Override
     public void onLocationChanged(Location location) {
         mMap.clear();
         LatLng posicionActual = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí")).showInfoWindow();
+        Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
+        amarker.showInfoWindow();
+        Log.d("TAG","onLocationChanged"+amarker.getTitle());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(200.0f));
     }

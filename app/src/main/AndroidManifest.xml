@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.instrucciones_devolucion.InstruccionesDevolucionActivity"></activity>
+        <activity android:name=".ui.registro.RegistroActivity"></activity>
+        <activity android:name=".ui.instrucciones_devolucion.InstruccionesDevolucionActivity" />
         <activity android:name=".ui.instrucciones_reserva.InstruccionesRetiroActivity" />
         <activity android:name=".ui.reserva.ReservaActivity" />
         <activity android:name=".ui.bicicletas_estacion.EstacionBicicletasActivity" />

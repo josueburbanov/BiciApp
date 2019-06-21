@@ -45,8 +45,10 @@ public class EstacionBicicletasActivity extends AppCompatActivity {
 
         final TextView titleEstationTextView = findViewById(R.id.titulo_estacion);
         final ListView bicisEstacionListView = findViewById(R.id.bicis_estacion);
+        final TextView direccionEstationTextView = findViewById(R.id.direccion_estacion);
 
         titleEstationTextView.setText(estacionView.getNombre());
+        direccionEstationTextView.setText(estacionView.getDireccion());
 
 
         viewModel = ViewModelProviders.of(this, new EstacionBicicletasViewModelFactory())

@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    >
+
+    <ImageView
+        android:id="@+id/busicon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        />
+
+    <TextView
+        android:id="@+id/businfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/busicon"
+        android:layout_toRightOf="@+id/busicon"
+        android:drawablePadding="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:textColor="#000000"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/arrivalinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/businfo"
+        android:layout_centerVertical="true"
+        android:drawablePadding="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:textColor="#000000"
+        android:textSize="8sp" />
+
+</RelativeLayout>
