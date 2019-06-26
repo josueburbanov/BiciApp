@@ -22,6 +22,7 @@ import android.support.annotation.StringRes;
 
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
+import app.josueburbano.com.biciapp.ui.Main.MainActivity;
 import app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity;
 
 
@@ -39,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login_btn);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+
+
         viewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -67,12 +71,13 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.GONE);
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
+                    usernameEditText.setText("");
+                    passwordEditText.setText("");
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
                 }
                 setResult(Activity.RESULT_OK);
-                finish();
             }
         });
 
@@ -133,12 +138,13 @@ public class LoginActivity extends AppCompatActivity {
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(CLIENT_VIEW,  model);
         startActivity(intent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
+
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

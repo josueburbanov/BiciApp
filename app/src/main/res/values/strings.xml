@@ -36,4 +36,7 @@
     <string name="hora_entrega_bici">a las</string>
     <string name="button_retirar_title">Retirar</string>
     <string name="instrucciones_deliver_title">Instrucciones entrega de bicicleta</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

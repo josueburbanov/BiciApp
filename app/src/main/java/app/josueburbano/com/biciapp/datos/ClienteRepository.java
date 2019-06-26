@@ -59,6 +59,51 @@ public class ClienteRepository {
 
     }
 
+    public LiveData<Cliente> postCliente(Cliente cliente) {
+        //LiveData<Cliente> cached = clienteCache.get(usuario);
+        /*if (cached != null) {
+            return cached;
+        }*/
+
+        //clienteCache.put(usuario, data);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IServicioCliente.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IServicioCliente service = retrofit.create(IServicioCliente.class);
+        JsonObject clienteJson = new JsonObject();
+        clienteJson.addProperty("usuario", cliente.getUsuario());
+        clienteJson.addProperty("cedula", cliente.getCedula());
+        clienteJson.addProperty("nombre", cliente.getNombre());
+        clienteJson.addProperty("correoElectronico", cliente.getCorreoElectronico());
+        clienteJson.addProperty("direccion", cliente.getDireccion());
+        clienteJson.addProperty("passw", cliente.getPassw());
+        clienteJson.addProperty("telefono", cliente.getTelefono());
+
+        //Llamada HTTP
+        Call<Cliente> requestClienteL = service.crearCliente(clienteJson);
+        requestClienteL.enqueue(new Callback<Cliente>() {
+            @Override
+            public void onResponse(Call<Cliente> call, Response<Cliente> response) {
+                if (!response.isSuccessful()) {
+                    data.setValue(null);
+                } else {
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cliente> call, Throwable t) {
+                data.setValue(null);
+
+            }
+        });
+        return data;
+
+    }
+
 
     public MutableLiveData<Cliente> getData() {
         return data;

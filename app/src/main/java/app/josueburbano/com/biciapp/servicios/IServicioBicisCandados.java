@@ -6,6 +6,7 @@ import java.util.List;
 
 import app.josueburbano.com.biciapp.datos.modelos.BiciCandado;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
+import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -22,4 +23,7 @@ public interface IServicioBicisCandados {
 
     @POST("/BicisCandadosServicio.svc/bicisCandados/nueva")
     Call<BiciCandado> agregarBiciCandado(@Body JsonObject body);
+
+    @GET("/BicisCandadosServicio.svc/bicisCandados/estacion/bici/{idBici}")
+    Call<Estacion> obtenerEstacionByBici(@Path("idBici") String idBici);
 }

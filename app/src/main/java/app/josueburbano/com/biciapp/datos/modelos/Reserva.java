@@ -10,6 +10,8 @@ public class Reserva implements Serializable {
     private String horaInicio;
     private String horaFin;
     private String fecha;
+    private boolean concretada;
+    private boolean activa;
 
     public String getIdBici() {
         return idBici;
@@ -57,5 +59,30 @@ public class Reserva implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean getConcretada() {
+        return concretada;
+    }
+
+    public void setConcretada(boolean concretada) {
+        this.concretada = concretada;
+    }
+
+    @Override
+    public String toString() {
+        if(activa){
+            return fecha + "  |  " + horaInicio + "  |  "+ horaFin +"  |  "+ "Activa";
+        }else{
+            return fecha + "  |  " + horaInicio + "  |  "+ horaFin +"  |  "+ "Inactiva";
+        }
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void setActiva(boolean activa) {
+        this.activa = activa;
     }
 }

@@ -59,6 +59,8 @@ public class ReservaActivity extends AppCompatActivity {
     int minutoFin = c.get(Calendar.MINUTE);
     private ReservaViewModel viewModel;
 
+    private Reserva reservaPost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,41 @@ public class ReservaActivity extends AppCompatActivity {
         estacionTextView.setText("Estacion: "+estacionView.getNombre());
         bicicletaTextView.setText("Bicicleta "+bicicletaView.getModelo()+"< >");
 
+
+        dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    selectDate(view);
+                } else {
+
+                }
+            }
+        });
+
+        startTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    selectStartTime(v);
+                } else {
+
+                }
+            }
+        });
+
+        endTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    selectEndTime(v);
+                } else {
+
+                }
+            }
+        });
+
+
         viewModel = ViewModelProviders.of(this, new ReservaViewModelFactory())
                 .get(ReservaViewModel.class);
 
@@ -88,10 +125,11 @@ public class ReservaActivity extends AppCompatActivity {
                 if (reserva == null) {
                     return;
                 }
-                if(reserva != null){
+                if(reservaPost.getId() == reserva.getId()){
                     String success = getString(R.string.reserva) + reserva.getId();
                     Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
 
+                    //El estado de la bici sigue siendo disponible
                     Intent intent = new Intent(getApplicationContext(), InstruccionesRetiroActivity.class);
                     intent.putExtra(RESERVA_VIEW,  reserva);
                     intent.putExtra(BICICLETA_VIEW, bicicletaView);
@@ -103,6 +141,20 @@ public class ReservaActivity extends AppCompatActivity {
         });
 
 
+        viewModel.getReservaActiva().observe(this, new Observer<Reserva>() {
+            @Override
+            public void onChanged(@Nullable Reserva reserva) {
+                if(reserva == null || !reserva.isActiva()){
+                    viewModel.makeReserva(reservaPost);
+                    viewModel.getReservaActiva().removeObserver(this);
+                }else{
+                    Toast.makeText(getApplicationContext(), "No se ha podido reservar debido a " +
+                            "que ya tiene una reserva activa. El " +
+                            reserva.getFecha()+" a las "+reserva.getHoraInicio()+"" +
+                            "hasta las "+reserva.getHoraFin(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     //Método controlador para la acción del Button para desplegar el dialogDate
@@ -118,6 +170,9 @@ public class ReservaActivity extends AppCompatActivity {
                 String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
                 dateEditText.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
+                anio = year;
+                mes = month;
+                dia = dayOfMonth;
             }
             //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
             /**
@@ -184,24 +239,28 @@ public class ReservaActivity extends AppCompatActivity {
         recogerHora.show();
     }
 
-    public void postReserva(View view) {
-        final Reserva reserva = gatherFieldsReserva();
+    public void postReserva(final View view) {
+        reservaPost = gatherFieldsReserva();
 
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Confirmación")
-                .setMessage("Fecha: "+reserva.getFecha()+"\n Hora inicial: "+reserva.getHoraInicio()
-                        +"\nHora entrega: "+reserva.getHoraFin()+"\nBiclicleta: "+bicicletaView.getModelo())
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        viewModel.makeReserva(reserva);
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
+        if(reservaPost==null){
+            Toast.makeText(getApplicationContext(), "Por favor revise que la fecha y/o horas " +
+                    "correspondan", Toast.LENGTH_LONG).show();
+        }else {
 
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Confirmación")
+                    .setMessage("Fecha: " + reservaPost.getFecha() + "\n Hora inicial: " + reservaPost.getHoraInicio()
+                            + "\nHora entrega: " + reservaPost.getHoraFin() + "\nBiclicleta: " + bicicletaView.getModelo())
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            viewModel.obtenerReservaActiva(clienteView.getId());
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
 
     }
 
@@ -210,12 +269,22 @@ public class ReservaActivity extends AppCompatActivity {
         reserva.setIdCliente(clienteView.getId());
         reserva.setIdBici(bicicletaView.getId());
         Date date = new GregorianCalendar(anio, mes, dia).getTime();
+        if( System.currentTimeMillis() < date.getTime() ){
+            return null;
+        }
         reserva.setFecha(DateFormat.format("yyyy/MM/dd", date).toString());
         Date horaInicioRes = new GregorianCalendar(anio, mes, dia, horaInicio, minutoInicio).getTime();
+        if(new Date().after(horaInicioRes)) {
+            return null;
+        }
         reserva.setHoraInicio(DateFormat.format("HH:mm", horaInicioRes).toString());
         Date horaFinRes = new GregorianCalendar(anio, mes, dia, horaFin, minutoFin).getTime();
+        if(new Date().after(horaFinRes) || new Date().after(horaInicioRes)) {
+            return null;
+        }
         reserva.setHoraFin(DateFormat.format("HH:mm", horaFinRes).toString());
+        reserva.setActiva(true);
+        reserva.setConcretada(false);
         return reserva;
-    }
-
+        }
 }

@@ -17,5 +17,8 @@ public interface IServicioCliente {
     @GET("/ClientesServicio.svc/clientes")
     Call<Cliente> obtenerClientes();
 
+    @POST("/ClientesServicio.svc/clientes/nuevo")
+    Call<Cliente> crearCliente(@Body JsonObject body);
+
 
 }
