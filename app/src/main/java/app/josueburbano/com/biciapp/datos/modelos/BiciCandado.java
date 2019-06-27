@@ -3,7 +3,7 @@ package app.josueburbano.com.biciapp.datos.modelos;
 public class BiciCandado {
     private String id;
     private String fechaHora;
-    private String entregaRetiro;
+    private boolean entregaRetiro;
     private String idBici;
     private String idCandado;
     private String error;
@@ -25,11 +25,11 @@ public class BiciCandado {
         this.fechaHora = fechaHora;
     }
 
-    public String getEntregaRetiro() {
+    public boolean getEntregaRetiro() {
         return entregaRetiro;
     }
 
-    public void setEntregaRetiro(String entregaRetiro) {
+    public void setEntregaRetiro(boolean entregaRetiro) {
         this.entregaRetiro = entregaRetiro;
     }
 

@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 
 public interface IServicioBicisCandados {
     @GET("/BicisCandadosServicio.svc/bicisCandados/biciCandadoActual")
-    Call<BiciCandado> obtenerBiciCandadoByIds(@Query("candado") String idCandado, @Query("bici")String idBici);
+    Call<BiciCandado> obtenerBiciCandadoByIds_Actual(@Query("candado") String idCandado, @Query("bici")String idBici);
 
     @GET("/BicisCandadosServicio.svc/bicisCandados/bicicletas/{idEstacion}")
     Call<List<Bicicleta>> obtenerBicisByEstacion(@Path("idEstacion") String idEstacion);
@@ -26,4 +26,6 @@ public interface IServicioBicisCandados {
 
     @GET("/BicisCandadosServicio.svc/bicisCandados/estacion/bici/{idBici}")
     Call<Estacion> obtenerEstacionByBici(@Path("idBici") String idBici);
+
+
 }

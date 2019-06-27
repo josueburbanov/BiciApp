@@ -72,7 +72,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                 if (biciCandado == null) {
                     Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.1", Toast.LENGTH_LONG).show();
                 } else {
-                    if (biciCandado.getStatusEntregaRecepcion()) {
+                    if (!biciCandado.getEntregaRetiro()) {
                         //TODO: Cambiar estado de reserva a inactivo y cambiar estado de bicicleta a no disponible
                         Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), InstruccionesDevolucionActivity.class);

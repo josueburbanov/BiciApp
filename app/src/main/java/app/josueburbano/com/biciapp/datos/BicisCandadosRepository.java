@@ -27,7 +27,7 @@ public class BicisCandadosRepository {
 
         IServicioBicisCandados service = retrofit.create(IServicioBicisCandados.class);
 
-        Call<BiciCandado> requestBicisEstacion = service.obtenerBiciCandadoByIds(idCandado, idBici);
+        Call<BiciCandado> requestBicisEstacion = service.obtenerBiciCandadoByIds_Actual(idCandado, idBici);
         requestBicisEstacion.enqueue(new Callback<BiciCandado>() {
             @Override
             public void onResponse(Call<BiciCandado> call, Response<BiciCandado> response) {

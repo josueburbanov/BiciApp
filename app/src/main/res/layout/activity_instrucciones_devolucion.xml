@@ -6,15 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.instrucciones_devolucion.InstruccionesDevolucionActivity">
 
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/instrucciones_deliver_title"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
@@ -23,61 +27,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Usted está en la estación"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapViewDev"
+        android:layout_width="397dp"
+        android:layout_height="339dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCandado"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Por favor cierre el candado"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Haga click sobre el botón para confirmar su entrega."
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Seleccione la estación para devolver su bici"
+        app:layout_constraintBottom_toTopOf="@+id/mapViewDev"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <Button
-        android:id="@+id/button2"
+    <TextView
+        android:id="@+id/textViewCandado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Entregar"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Ubique la bicicleta dentro del candado "
+        app:layout_constraintBottom_toTopOf="@+id/textViewInstruccionFinal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapViewDev" />
+
+    <TextView
+        android:id="@+id/textViewInstruccionFinal"
+        android:layout_width="321dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Una vez colocada la bicicleta, para que el candado se cierre, pase su tarjeta por el lector."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewCandado" />
+
 </android.support.constraint.ConstraintLayout>

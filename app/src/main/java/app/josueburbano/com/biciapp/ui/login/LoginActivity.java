@@ -24,6 +24,7 @@ import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
 import app.josueburbano.com.biciapp.ui.Main.MainActivity;
 import app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity;
+import app.josueburbano.com.biciapp.ui.registro.RegistroActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -146,5 +147,10 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
 
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    public void abrirRegistro(View view){
+        Intent intent = new Intent(this, RegistroActivity.class);
+        startActivity(intent);
     }
 }

@@ -15,6 +15,7 @@ public class Cliente {
         this.setId(id);
         this.setUsuario(usuario);
     }
+    public Cliente(){}
 
     public String getId() {
         return id;
