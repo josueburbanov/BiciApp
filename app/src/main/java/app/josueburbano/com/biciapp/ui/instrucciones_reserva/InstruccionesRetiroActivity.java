@@ -13,8 +13,10 @@ import android.widget.Toast;
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.BiciCandado;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
+import app.josueburbano.com.biciapp.datos.modelos.Candado;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
+import app.josueburbano.com.biciapp.ui.RodandoBiciActivity;
 import app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
@@ -64,23 +66,38 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new InstruccionRetiroViewModelFactory())
                 .get(InstruccionesRetiroViewModel.class);
 
-
+        viewModel.obtenerBiciEstacion(bicicletaView.getId());
 
         viewModel.getBiciEstacion().observe(this, new Observer<BiciCandado>() {
             @Override
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if (biciCandado == null) {
-                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.1", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                 } else {
                     if (!biciCandado.getEntregaRetiro()) {
-                        //TODO: Cambiar estado de reserva a inactivo y cambiar estado de bicicleta a no disponible
-                        Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), InstruccionesDevolucionActivity.class);
-                        //intent.putExtra(BICICLETA_VIEW, item);
-                        intent.putExtra(ESTACION_VIEW, estacionView);
-                        intent.putExtra(CLIENT_VIEW, clienteView);
-                        startActivity(intent);
-                    } else {
+                        viewModel.obtenerCandado(biciCandado.getIdCandado());
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+        viewModel.getCandado().observe(this, new Observer<Candado>() {
+            @Override
+            public void onChanged(@Nullable Candado candado) {
+                if(candado == null){
+                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                }else{
+                    if(candado.isAbierto()){
+                    Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), RodandoBiciActivity.class);
+                    //intent.putExtra(BICICLETA_VIEW, item);
+                    intent.putExtra(ESTACION_VIEW, estacionView);
+                    intent.putExtra(CLIENT_VIEW, clienteView);
+                    intent.putExtra(RESERVA_VIEW,  reservaView);
+                    startActivity(intent);
+                } else {
                         Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                     }
                 }

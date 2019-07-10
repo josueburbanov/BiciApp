@@ -2,8 +2,6 @@ package app.josueburbano.com.biciapp.ui.map_estaciones;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -13,25 +11,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,11 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
-import app.josueburbano.com.biciapp.ui.MisReservas.MisReservasFragment;
 import app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
@@ -194,7 +179,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         amarker.showInfoWindow();
         Log.d("TAG","onLocationChanged"+amarker.getTitle());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(200.0f));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
     }
 
     @Override

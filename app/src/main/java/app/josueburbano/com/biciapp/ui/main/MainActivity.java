@@ -1,7 +1,5 @@
-package app.josueburbano.com.biciapp.ui.Main;
+package app.josueburbano.com.biciapp.ui.main;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,15 +7,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import app.josueburbano.com.biciapp.R;
-import app.josueburbano.com.biciapp.ui.MisReservas.MisReservasFragment;
+import app.josueburbano.com.biciapp.ui.mis_reservas.MisReservasFragment;
 import app.josueburbano.com.biciapp.ui.map_estaciones.MapViewFragment;
-import app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
@@ -43,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                   new MapViewFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_message);
-
         }
     }
 

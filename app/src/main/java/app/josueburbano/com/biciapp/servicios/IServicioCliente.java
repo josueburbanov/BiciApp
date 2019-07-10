@@ -10,7 +10,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface IServicioCliente {
-    public static final String BASE_URL = "http:/192.168.100.67:45455";
+
+    public static final String BASE_URL = "http:/192.168.100.64:45455";
     @POST("/ClientesServicio.svc/clientes/authentication")
     Call<Cliente> obtenerClienteLogueado(@Query("usuario") String usuario, @Query("passw")String passw);
 
@@ -19,6 +20,4 @@ public interface IServicioCliente {
 
     @POST("/ClientesServicio.svc/clientes/nuevo")
     Call<Cliente> crearCliente(@Body JsonObject body);
-
-
 }

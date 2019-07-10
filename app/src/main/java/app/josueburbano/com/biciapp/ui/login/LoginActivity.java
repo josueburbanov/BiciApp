@@ -22,8 +22,7 @@ import android.support.annotation.StringRes;
 
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
-import app.josueburbano.com.biciapp.ui.Main.MainActivity;
-import app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity;
+import app.josueburbano.com.biciapp.ui.main.MainActivity;
 import app.josueburbano.com.biciapp.ui.registro.RegistroActivity;
 
 

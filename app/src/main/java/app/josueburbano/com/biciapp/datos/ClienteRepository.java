@@ -3,6 +3,7 @@ package app.josueburbano.com.biciapp.datos;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import com.google.gson.JsonObject;
 
@@ -23,13 +24,14 @@ public class ClienteRepository {
     private MutableLiveData<Cliente> data = new MutableLiveData<>();
 
     public LiveData<Cliente> getCliente(String usuario, String passw) {
-        //LiveData<Cliente> cached = clienteCache.get(usuario);
-        /*if (cached != null) {
+        LiveData<Cliente> cached = clienteCache.get(usuario);
+        if (cached != null) {
             return cached;
-        }*/
+        }else{
+            clienteCache.put(usuario, data);
+        }
 
-        //clienteCache.put(usuario, data);
-
+        Log.d("entra",IServicioCliente.BASE_URL);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IServicioCliente.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -60,13 +62,6 @@ public class ClienteRepository {
     }
 
     public LiveData<Cliente> postCliente(Cliente cliente) {
-        //LiveData<Cliente> cached = clienteCache.get(usuario);
-        /*if (cached != null) {
-            return cached;
-        }*/
-
-        //clienteCache.put(usuario, data);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IServicioCliente.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

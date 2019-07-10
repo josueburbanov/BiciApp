@@ -54,9 +54,10 @@ public class ReservaActivity extends AppCompatActivity {
     int dia = c.get(Calendar.DAY_OF_MONTH);
     int anio = c.get(Calendar.YEAR);
     int horaInicio = c.get(Calendar.HOUR_OF_DAY);
-    int minutoInicio = c.get(Calendar.MINUTE);
-    int horaFin = c.get(Calendar.HOUR_OF_DAY);
-    int minutoFin = c.get(Calendar.MINUTE);
+    int minutoInicio = c.get(Calendar.MINUTE) + 2;
+    int horaFin = c.get(Calendar.HOUR_OF_DAY) + 1;
+    int minutoFin = c.get(Calendar.MINUTE) + 2;
+
     private ReservaViewModel viewModel;
 
     private Reserva reservaPost;
@@ -78,8 +79,46 @@ public class ReservaActivity extends AppCompatActivity {
         startTimeEditText = findViewById(R.id.startTimeEditText);
         endTimeEditText = findViewById(R.id.endTimeEditText);
 
-        estacionTextView.setText("Estacion: "+estacionView.getNombre());
-        bicicletaTextView.setText("Bicicleta "+bicicletaView.getModelo()+"< >");
+        //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+        final int mesActual = mes + 1;
+        //Formateo el día obtenido: antepone el 0 si son menores de 10
+        String diaFormateado = (dia < 10) ? CERO + String.valueOf(dia) : String.valueOf(dia);
+        //Formateo el mes obtenido: antepone el 0 si son menores de 10
+        String mesFormateado = (mesActual < 10) ? CERO + String.valueOf(mesActual) : String.valueOf(mesActual);
+        //Muestro la fecha con el formato deseado
+        dateEditText.setText(diaFormateado + BARRA + mesFormateado + BARRA + anio);
+
+        //Formateo el hora obtenido: antepone el 0 si son menores de 10
+        String horaFormateada = (horaInicio < 10) ? String.valueOf(CERO + horaInicio) : String.valueOf(horaInicio);
+        //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+        String minutoFormateado = (minutoInicio < 10) ? String.valueOf(CERO + minutoInicio) : String.valueOf(minutoInicio);
+        //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+        String AM_PM;
+        if (horaInicio < 12) {
+            AM_PM = "a.m.";
+        } else {
+            AM_PM = "p.m.";
+        }
+        //Muestro la hora con el formato deseado
+        startTimeEditText.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+
+        //Formateo el hora obtenido: antepone el 0 si son menores de 10
+        String horaFormateadaFin = (horaFin < 10) ? String.valueOf(CERO + horaFin) : String.valueOf(horaFin);
+        //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+        String minutoFormateadoFin = (minutoFin < 10) ? String.valueOf(CERO + minutoFin) : String.valueOf(minutoFin);
+        //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+        String AM_PM_Fin;
+        if (horaFin < 12) {
+            AM_PM_Fin = "a.m.";
+        } else {
+            AM_PM_Fin = "p.m.";
+        }
+        //Muestro la hora con el formato deseado
+        endTimeEditText.setText(horaFormateadaFin + DOS_PUNTOS + minutoFormateadoFin + " " + AM_PM_Fin);
+
+
+        estacionTextView.setText("Estacion: " + estacionView.getNombre());
+        bicicletaTextView.setText("Bicicleta " + bicicletaView.getModelo() + "< >");
 
 
         dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -93,7 +132,7 @@ public class ReservaActivity extends AppCompatActivity {
             }
         });
 
-        startTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        startTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -104,7 +143,7 @@ public class ReservaActivity extends AppCompatActivity {
             }
         });
 
-        endTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        endTimeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -123,15 +162,18 @@ public class ReservaActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Reserva reserva) {
                 if (reserva == null) {
-                    return;
-                }
-                if(reservaPost.getId() == reserva.getId()){
-                    String success = getString(R.string.reserva) + reserva.getId();
+
+                } else if (reservaPost.getIdBici().equals(reserva.getIdBici()) &&
+                        reservaPost.getIdCliente().equals(reserva.getIdCliente()) &&
+                        reservaPost.getFecha().equals(reserva.getFecha()) &&
+                        reservaPost.getHoraInicio().equals(reserva.getHoraInicio()) &&
+                        reservaPost.getHoraFin().equals(reserva.getHoraFin())){
+                    String success = getString(R.string.reserva);
                     Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
 
                     //El estado de la bici sigue siendo disponible
                     Intent intent = new Intent(getApplicationContext(), InstruccionesRetiroActivity.class);
-                    intent.putExtra(RESERVA_VIEW,  reserva);
+                    intent.putExtra(RESERVA_VIEW, reserva);
                     intent.putExtra(BICICLETA_VIEW, bicicletaView);
                     intent.putExtra(ESTACION_VIEW, estacionView);
                     intent.putExtra(CLIENT_VIEW, clienteView);
@@ -144,14 +186,14 @@ public class ReservaActivity extends AppCompatActivity {
         viewModel.getReservaActiva().observe(this, new Observer<Reserva>() {
             @Override
             public void onChanged(@Nullable Reserva reserva) {
-                if(reserva == null || !reserva.isActiva()){
+                if (reserva == null || !reserva.isActiva()) {
                     viewModel.makeReserva(reservaPost);
                     viewModel.getReservaActiva().removeObserver(this);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "No se ha podido reservar debido a " +
                             "que ya tiene una reserva activa. El " +
-                            reserva.getFecha()+" a las "+reserva.getHoraInicio()+"" +
-                            "hasta las "+reserva.getHoraFin(), Toast.LENGTH_LONG).show();
+                            reserva.getFecha() + " a las " + reserva.getHoraInicio() + " " +
+                            "hasta las " + reserva.getHoraFin(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -165,9 +207,9 @@ public class ReservaActivity extends AppCompatActivity {
                 //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
                 final int mesActual = month + 1;
                 //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String diaFormateado = (dayOfMonth < 10) ? CERO + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth);
                 //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                String mesFormateado = (mesActual < 10) ? CERO + String.valueOf(mesActual) : String.valueOf(mesActual);
                 //Muestro la fecha con el formato deseado
                 dateEditText.setText(diaFormateado + BARRA + mesFormateado + BARRA + year);
                 anio = year;
@@ -178,7 +220,7 @@ public class ReservaActivity extends AppCompatActivity {
             /**
              *También puede cargar los valores que usted desee
              */
-        },anio, mes, dia);
+        }, anio, mes, dia);
         //Muestro el widget
         recogerFecha.show();
     }
@@ -188,12 +230,12 @@ public class ReservaActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String horaFormateada = (hourOfDay < 10) ? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                String minutoFormateado = (minute < 10) ? String.valueOf(CERO + minute) : String.valueOf(minute);
                 //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
                 String AM_PM;
-                if(hourOfDay < 12) {
+                if (hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
@@ -216,12 +258,12 @@ public class ReservaActivity extends AppCompatActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String horaFormateada = (hourOfDay < 10) ? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                String minutoFormateado = (minute < 10) ? String.valueOf(CERO + minute) : String.valueOf(minute);
                 //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
                 String AM_PM;
-                if(hourOfDay < 12) {
+                if (hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
@@ -242,10 +284,10 @@ public class ReservaActivity extends AppCompatActivity {
     public void postReserva(final View view) {
         reservaPost = gatherFieldsReserva();
 
-        if(reservaPost==null){
+        if (reservaPost == null) {
             Toast.makeText(getApplicationContext(), "Por favor revise que la fecha y/o horas " +
                     "correspondan", Toast.LENGTH_LONG).show();
-        }else {
+        } else {
 
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -269,22 +311,22 @@ public class ReservaActivity extends AppCompatActivity {
         reserva.setIdCliente(clienteView.getId());
         reserva.setIdBici(bicicletaView.getId());
         Date date = new GregorianCalendar(anio, mes, dia).getTime();
-        if( System.currentTimeMillis() < date.getTime() ){
+        if (System.currentTimeMillis() < date.getTime()) {
             return null;
         }
         reserva.setFecha(DateFormat.format("yyyy/MM/dd", date).toString());
         Date horaInicioRes = new GregorianCalendar(anio, mes, dia, horaInicio, minutoInicio).getTime();
-        if(new Date().after(horaInicioRes)) {
+        if (new Date().after(horaInicioRes)) {
             return null;
         }
         reserva.setHoraInicio(DateFormat.format("HH:mm", horaInicioRes).toString());
         Date horaFinRes = new GregorianCalendar(anio, mes, dia, horaFin, minutoFin).getTime();
-        if(new Date().after(horaFinRes) || new Date().after(horaInicioRes)) {
+        if (new Date().after(horaFinRes) || new Date().after(horaInicioRes)) {
             return null;
         }
         reserva.setHoraFin(DateFormat.format("HH:mm", horaFinRes).toString());
         reserva.setActiva(true);
         reserva.setConcretada(false);
         return reserva;
-        }
+    }
 }

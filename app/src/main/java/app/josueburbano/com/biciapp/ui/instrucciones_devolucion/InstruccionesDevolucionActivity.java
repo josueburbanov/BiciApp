@@ -18,15 +18,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,10 +35,12 @@ import java.util.List;
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Candado;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
-import app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
-import app.josueburbano.com.biciapp.ui.instrucciones_reserva.InstruccionRetiroViewModelFactory;
+import app.josueburbano.com.biciapp.datos.modelos.Reserva;
+import app.josueburbano.com.biciapp.ui.main.MainActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 import app.josueburbano.com.biciapp.ui.map_estaciones.InfoAdapter;
+import app.josueburbano.com.biciapp.ui.reserva.ReservaViewModel;
+import app.josueburbano.com.biciapp.ui.reserva.ReservaViewModelFactory;
 
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 
@@ -86,21 +87,20 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
                 mMap.setInfoWindowAdapter(new InfoAdapter(getLayoutInflater()));
-                colocarEstacionEnMapa(null,null);
+                colocarEstacionEnMapa(null, null);
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         if (!marker.getTitle().equals("Tú estás aquí")) {
 
                             //if(checkMyLocationEstacion((Estacion)marker.getTag())){
-                                //}
+                            //}
 
 
-                        textViewCandado.setVisibility(View.VISIBLE);
-                        textViewCandado.setText("Ubique la bicicleta dentro del candado: "+
-                                    ((Candado)marker.getTag()).getId());
-                        textViewInstruccionFinal.setVisibility(View.VISIBLE);
-
+                            textViewCandado.setVisibility(View.VISIBLE);
+                            textViewCandado.setText("Ubique la bicicleta dentro del candado: " +
+                                    ((Candado) marker.getTag()).getId());
+                            textViewInstruccionFinal.setVisibility(View.VISIBLE);
 
 
                         }
@@ -114,7 +114,7 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
                         LatLng posicionActual = new LatLng(latitude, longitude);
                         Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
                         amarker.showInfoWindow();
-                        Log.d("TAG","onLocationChanged"+amarker.getTitle());
+                        Log.d("TAG", "onLocationChanged" + amarker.getTitle());
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
                     }
@@ -140,17 +140,17 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         viewModel.getCandadosAbiertos().observe(this, new Observer<List<Candado>>() {
             @Override
             public void onChanged(@Nullable List<Candado> candados) {
-                Log.d("entra","candadosAbiertos");
-                if(candados != null ) {
-                    if(candados.size()!=0){
+                Log.d("entra", "candadosAbiertos");
+                if (candados != null) {
+                    if (candados.size() != 0) {
 
-                    for (Estacion estacion : estacionesField) {
-                        Log.d("entra","estacioIter");
-                        if (estacion.getId().equals(candados.get(0).getIdEstacion())) {
-                            Log.d("entra","colocar");
-                            colocarEstacionEnMapa(estacion, candados);
+                        for (Estacion estacion : estacionesField) {
+                            Log.d("entra", "estacioIter");
+                            if (estacion.getId().equals(candados.get(0).getIdEstacion())) {
+                                Log.d("entra", "colocar");
+                                colocarEstacionEnMapa(estacion, candados);
+                            }
                         }
-                    }
                     }
                 }
             }
@@ -190,8 +190,8 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
     }
 
     private boolean checkMyLocationEstacion(Estacion estacion) {
-        return latitude-0.0001<estacion.getLatitud() && estacion.getLatitud()<latitude+0.0001
-                && longitude-0.0001<estacion.getLongitud()&&estacion.getLongitud()<longitude+0.001;
+        return latitude - 0.0001 < estacion.getLatitud() && estacion.getLatitud() < latitude + 0.0001
+                && longitude - 0.0001 < estacion.getLongitud() && estacion.getLongitud() < longitude + 0.001;
     }
 
     private void colocarEstacionEnMapa(Estacion estacion, List<Candado> candadosEstacion) {
@@ -202,14 +202,14 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
             amarker.showInfoWindow();
-            Log.d("entra","null");
+            Log.d("entra", "null");
         } else {
             LatLng posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Estación: " + estacion.getNombre()));
             amarker.setTitle("Estación: " + estacion.getNombre());
-            amarker.setSnippet(estacion.getDireccion()+"\nCandados disponibles: "+candadosEstacion.size());
+            amarker.setSnippet(estacion.getDireccion() + "\nCandados disponibles: " + candadosEstacion.size());
             amarker.setTag(candadosEstacion.get(0));
-            Log.d("entra",String.valueOf(candadosEstacion.size()));
+            Log.d("entra", String.valueOf(candadosEstacion.size()));
         }
     }
 
@@ -232,7 +232,7 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         LatLng posicionActual = new LatLng(latitude, longitude);
         Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
         amarker.showInfoWindow();
-        Log.d("TAG","onLocationChanged"+amarker.getTitle());
+        Log.d("TAG", "onLocationChanged" + amarker.getTitle());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
     }
@@ -321,6 +321,23 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             }
 
         }
+    }
+
+    public void FinalizarEntrega(View view) {
+        ReservaViewModel viewModelReservas = ViewModelProviders.of(this, new ReservaViewModelFactory())
+                .get(ReservaViewModel.class);
+        viewModelReservas.obtenerReservaActiva(clienteView.getId());
+        viewModelReservas.getReservaActiva().observe(this, new Observer<Reserva>() {
+            @Override
+            public void onChanged(@Nullable Reserva reserva) {
+                if (reserva == null) {
+                    Toast.makeText(getApplicationContext(), "Bicicleta entregada con éxito!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra(CLIENT_VIEW, clienteView);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
 

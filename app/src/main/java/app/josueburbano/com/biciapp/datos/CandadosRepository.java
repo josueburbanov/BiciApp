@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CandadosRepository {
     private IServicioBicisCandados webservice;
     private MutableLiveData<List<Candado>> data = new MutableLiveData<>();
+    private MutableLiveData<Candado> candado = new MutableLiveData<>();
 
     public LiveData<List<Candado>> getCandadosAbiertos(String idEstacion) {
 
@@ -47,8 +48,38 @@ public class CandadosRepository {
         return data;
     }
 
+    public LiveData<Candado> obtenerCandado(String idCandado){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IServicioCliente.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IServicioCandados service = retrofit.create(IServicioCandados.class);
+
+        Call<Candado> requestCandadosAbiertos = service.obtenerCandado(idCandado);
+        requestCandadosAbiertos.enqueue(new Callback<Candado>() {
+            @Override
+            public void onResponse(Call<Candado> call, Response<Candado> response) {
+                if (!response.isSuccessful()) {
+                    candado.setValue(null);
+                }else{
+                    candado.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Candado> call, Throwable t) {
+                candado.setValue(null);
+            }
+        });
+        return candado;
+    }
+
     public MutableLiveData<List<Candado>> getData() {
         return data;
+    }
+    public MutableLiveData<Candado> getCandado() {
+        return candado;
     }
 
 }

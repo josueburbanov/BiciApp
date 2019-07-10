@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui.MisReservas;
+package app.josueburbano.com.biciapp.ui.mis_reservas;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

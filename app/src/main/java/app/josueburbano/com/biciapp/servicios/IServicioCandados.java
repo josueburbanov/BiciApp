@@ -11,4 +11,7 @@ import retrofit2.http.Path;
 public interface IServicioCandados {
     @GET("/CandadosServicio.svc/candados/abiertos/estacion/{idEstacion}")
     Call<List<Candado>> obtenerCandadosAbiertos(@Path("idEstacion")String idEstacion);
+
+    @GET("/CandadosServicio.svc/candados/{idCandado}")
+    Call<Candado> obtenerCandado(@Path("idCandado") String idCandado);
 }

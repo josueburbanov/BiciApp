@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui.MisReservas;
+package app.josueburbano.com.biciapp.ui.mis_reservas;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -58,9 +58,11 @@ public class MisReservasFragment extends Fragment {
         viewModel.getReservas().observe(this, new Observer<List<Reserva>>() {
             @Override
             public void onChanged(@Nullable List<Reserva> reservas) {
+                if(reservas!=null){
                 adapter = new ArrayAdapter<Reserva>(getActivity().getApplicationContext(),
                         android.R.layout.simple_list_item_1, new ArrayList<Reserva>(reservas));
                 listView.setAdapter(adapter);
+                }
             }
         });
 

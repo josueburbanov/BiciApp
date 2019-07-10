@@ -27,16 +27,17 @@
     <string name="hora_retiro_title">Hora de retiro de la bicicleta</string>
     <string name="hora_entrega_bicicleta_title">Hora de entrega de la bicicleta</string>
     <string name="instructions_take_out_title">Instrucciones para el retiro</string>
-    <string name="step_one_instructions_to">1. Su bicicleta está disponible en la estación</string>
-    <string name="step_two_instructions_to">2. Su bicicleta contiene el id:</string>
-    <string name="step_3_instructions_to">"3. El uso de su bicicleta es en la fecha: "</string>
-    <string name="step_4_instructions_to">"4. Pase su tarjeta por el lector para que el candado se abra, no olvide devolver su bicicleta a las "</string>
-    <string name="ubicacion_estacion">en la dirección :</string>
-    <string name="modelo_bicicleta">de modelo:</string>
-    <string name="hora_entrega_bici">a las</string>
+    <string name="step_one_instructions_to">1. Su bicicleta está disponible en la estación\u0020</string>
+    <string name="step_two_instructions_to">2. Su bicicleta contiene el código:\u0020</string>
+    <string name="step_3_instructions_to">"3. El uso de su bicicleta es en la fecha:\u0020"</string>
+    <string name="step_4_instructions_to">"4. Pase su tarjeta por el lector para que el candado se abra, no olvide devolver su bicicleta a las\u0020"</string>
+    <string name="ubicacion_estacion">\u0020en la dirección:\u0020</string>
+    <string name="modelo_bicicleta">de modelo:\u0020</string>
+    <string name="hora_entrega_bici">\u0020a las</string>
     <string name="button_retirar_title">Retirar</string>
     <string name="instrucciones_deliver_title">Instrucciones entrega de bicicleta</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="entrega_bici">Recuerde entregar su bicicleta a las</string>
 </resources>
