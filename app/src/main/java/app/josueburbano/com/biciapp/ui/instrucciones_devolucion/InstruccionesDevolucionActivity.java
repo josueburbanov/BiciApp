@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,15 +34,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 import app.josueburbano.com.biciapp.R;
+import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Candado;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
-import app.josueburbano.com.biciapp.ui.main.MainActivity;
+import app.josueburbano.com.biciapp.ui.procesando_entrega.Procesando_entrega;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 import app.josueburbano.com.biciapp.ui.map_estaciones.InfoAdapter;
 import app.josueburbano.com.biciapp.ui.reserva.ReservaViewModel;
 import app.josueburbano.com.biciapp.ui.reserva.ReservaViewModelFactory;
 
+import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 
 public class InstruccionesDevolucionActivity extends AppCompatActivity implements LocationListener {
@@ -57,9 +60,13 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
     MapView mMapView;
     TextView textViewCandado;
     TextView textViewInstruccionFinal;
+    Button btnFinalizar;
 
 
     private List<Estacion> estacionesField;
+    private Candado candadoView;
+    public static final String CANDADO_VIEW = "app.josueburbano.com.biciapp.CANDADO";
+    private Bicicleta bicicletaView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +77,13 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         mMapView = (MapView) findViewById(R.id.mapViewDev);
         textViewCandado = (TextView) findViewById(R.id.textViewCandado);
         textViewInstruccionFinal = (TextView) findViewById(R.id.textViewInstruccionFinal);
+        btnFinalizar = (Button) findViewById(R.id.btnFinalizar);
+
 
         textViewCandado.setVisibility(View.INVISIBLE);
         textViewInstruccionFinal.setVisibility(View.INVISIBLE);
+        btnFinalizar.setEnabled(false);
+
 
         try {
             MapsInitializer.initialize(getApplicationContext());
@@ -100,7 +111,9 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
                             textViewCandado.setVisibility(View.VISIBLE);
                             textViewCandado.setText("Ubique la bicicleta dentro del candado: " +
                                     ((Candado) marker.getTag()).getId());
+                            candadoView = (Candado) marker.getTag();
                             textViewInstruccionFinal.setVisibility(View.VISIBLE);
+                            btnFinalizar.setEnabled(true);
 
 
                         }
@@ -125,6 +138,7 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         //Obtener el usuario proveniente de la activity anterior (Login)
         Intent intent = getIntent();
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
+        bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);
 
 
         //Coloca el mapa en la posición actual del teléfono y chequea permisos
@@ -324,20 +338,11 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
     }
 
     public void FinalizarEntrega(View view) {
-        ReservaViewModel viewModelReservas = ViewModelProviders.of(this, new ReservaViewModelFactory())
-                .get(ReservaViewModel.class);
-        viewModelReservas.obtenerReservaActiva(clienteView.getId());
-        viewModelReservas.getReservaActiva().observe(this, new Observer<Reserva>() {
-            @Override
-            public void onChanged(@Nullable Reserva reserva) {
-                if (reserva == null) {
-                    Toast.makeText(getApplicationContext(), "Bicicleta entregada con éxito!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra(CLIENT_VIEW, clienteView);
-                    startActivity(intent);
-                }
-            }
-        });
+        Intent intent = new Intent(getApplicationContext(), Procesando_entrega.class);
+        intent.putExtra(CLIENT_VIEW, clienteView);
+        intent.putExtra(CANDADO_VIEW, candadoView);
+        intent.putExtra(BICICLETA_VIEW, bicicletaView);
+        startActivity(intent);
     }
 }
 

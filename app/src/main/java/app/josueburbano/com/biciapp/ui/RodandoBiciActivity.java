@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import app.josueburbano.com.biciapp.R;
+import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
 import app.josueburbano.com.biciapp.ui.instrucciones_reserva.InstruccionesRetiroActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
+import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.ESTACION_VIEW;
 import static app.josueburbano.com.biciapp.ui.reserva.ReservaActivity.RESERVA_VIEW;
@@ -19,6 +21,7 @@ import static app.josueburbano.com.biciapp.ui.reserva.ReservaActivity.RESERVA_VI
 public class RodandoBiciActivity extends AppCompatActivity {
 
     private LoginClienteView clienteView;
+    private Bicicleta bicicletaView;
     private Reserva reservaView;
     private TextView textViewHoraEntrega;
 
@@ -30,6 +33,7 @@ public class RodandoBiciActivity extends AppCompatActivity {
         Intent intent = getIntent();
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
         reservaView = (Reserva) intent.getSerializableExtra(RESERVA_VIEW);
+        bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);
 
 
         textViewHoraEntrega = (TextView) findViewById(R.id.textViewHoraEntrega);
@@ -39,6 +43,7 @@ public class RodandoBiciActivity extends AppCompatActivity {
     public void EntregarBici(View view){
         Intent intent = new Intent(getApplicationContext(), InstruccionesDevolucionActivity.class);
         intent.putExtra(CLIENT_VIEW, clienteView);
+        intent.putExtra(BICICLETA_VIEW, bicicletaView);
         startActivity(intent);
     }
 }

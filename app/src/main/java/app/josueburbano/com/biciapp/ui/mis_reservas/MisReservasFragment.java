@@ -87,7 +87,6 @@ public class MisReservasFragment extends Fragment {
                     intent.putExtra(CLIENT_VIEW, clienteView);
                     startActivity(intent);
                 }
-
             }
         });
 

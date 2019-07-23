@@ -92,10 +92,10 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                     if(candado.isAbierto()){
                     Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), RodandoBiciActivity.class);
-                    //intent.putExtra(BICICLETA_VIEW, item);
                     intent.putExtra(ESTACION_VIEW, estacionView);
                     intent.putExtra(CLIENT_VIEW, clienteView);
                     intent.putExtra(RESERVA_VIEW,  reservaView);
+                    intent.putExtra(BICICLETA_VIEW, bicicletaView);
                     startActivity(intent);
                 } else {
                         Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();

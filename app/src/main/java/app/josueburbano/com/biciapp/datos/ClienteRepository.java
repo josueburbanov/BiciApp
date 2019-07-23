@@ -31,7 +31,6 @@ public class ClienteRepository {
             clienteCache.put(usuario, data);
         }
 
-        Log.d("entra",IServicioCliente.BASE_URL);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IServicioCliente.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

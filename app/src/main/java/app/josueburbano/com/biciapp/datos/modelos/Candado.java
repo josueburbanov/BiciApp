@@ -1,6 +1,8 @@
 package app.josueburbano.com.biciapp.datos.modelos;
 
-public class Candado {
+import java.io.Serializable;
+
+public class Candado implements Serializable {
     private String id;
     private String idEstacion;
     private boolean abierto;
