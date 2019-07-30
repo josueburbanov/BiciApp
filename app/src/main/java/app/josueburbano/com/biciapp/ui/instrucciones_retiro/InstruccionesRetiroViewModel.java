@@ -1,9 +1,7 @@
-package app.josueburbano.com.biciapp.ui.instrucciones_reserva;
+package app.josueburbano.com.biciapp.ui.instrucciones_retiro;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import app.josueburbano.com.biciapp.datos.BicisCandadosRepository;
 import app.josueburbano.com.biciapp.datos.CandadosRepository;

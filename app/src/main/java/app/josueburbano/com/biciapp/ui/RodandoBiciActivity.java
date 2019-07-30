@@ -10,12 +10,10 @@ import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
-import app.josueburbano.com.biciapp.ui.instrucciones_reserva.InstruccionesRetiroActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
-import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.ESTACION_VIEW;
 import static app.josueburbano.com.biciapp.ui.reserva.ReservaActivity.RESERVA_VIEW;
 
 public class RodandoBiciActivity extends AppCompatActivity {

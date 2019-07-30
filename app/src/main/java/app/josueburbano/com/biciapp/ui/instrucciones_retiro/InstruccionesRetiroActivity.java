@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui.instrucciones_reserva;
+package app.josueburbano.com.biciapp.ui.instrucciones_retiro;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,8 +17,9 @@ import app.josueburbano.com.biciapp.datos.modelos.Candado;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.RodandoBiciActivity;
-import app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
+import app.josueburbano.com.biciapp.ui.procesando_entrega.Procesando_entrega;
+import app.josueburbano.com.biciapp.ui.procesando_retiro.ProcesandoRetiroActivity;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
@@ -108,5 +109,12 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
 
     public void retirarBicicleta(View view){
         viewModel.obtenerBiciEstacion(bicicletaView.getId());
+        Intent intent = new Intent(getApplicationContext(), ProcesandoRetiroActivity.class);
+        intent.putExtra(CLIENT_VIEW, clienteView);
+        intent.putExtra(BICICLETA_VIEW, bicicletaView);
+        intent.putExtra(ESTACION_VIEW, estacionView);
+        intent.putExtra(RESERVA_VIEW,  reservaView);
+        intent.putExtra(BICICLETA_VIEW, bicicletaView);
+        startActivity(intent);
     }
 }

@@ -26,7 +26,7 @@ import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
-import app.josueburbano.com.biciapp.ui.instrucciones_reserva.InstruccionesRetiroActivity;
+import app.josueburbano.com.biciapp.ui.instrucciones_retiro.InstruccionesRetiroActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;

@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.ui.instrucciones_reserva;
+package app.josueburbano.com.biciapp.ui.instrucciones_retiro;
 
 
 import android.arch.lifecycle.ViewModel;

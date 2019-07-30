@@ -103,19 +103,14 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         if (!marker.getTitle().equals("Tú estás aquí")) {
-
                             //if(checkMyLocationEstacion((Estacion)marker.getTag())){
                             //}
-
-
                             textViewCandado.setVisibility(View.VISIBLE);
                             textViewCandado.setText("Ubique la bicicleta dentro del candado: " +
                                     ((Candado) marker.getTag()).getId());
                             candadoView = (Candado) marker.getTag();
                             textViewInstruccionFinal.setVisibility(View.VISIBLE);
                             btnFinalizar.setEnabled(true);
-
-
                         }
                     }
                 });
@@ -154,14 +149,10 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         viewModel.getCandadosAbiertos().observe(this, new Observer<List<Candado>>() {
             @Override
             public void onChanged(@Nullable List<Candado> candados) {
-                Log.d("entra", "candadosAbiertos");
                 if (candados != null) {
                     if (candados.size() != 0) {
-
                         for (Estacion estacion : estacionesField) {
-                            Log.d("entra", "estacioIter");
                             if (estacion.getId().equals(candados.get(0).getIdEstacion())) {
-                                Log.d("entra", "colocar");
                                 colocarEstacionEnMapa(estacion, candados);
                             }
                         }

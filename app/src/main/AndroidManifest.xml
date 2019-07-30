@@ -19,14 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.procesando_entrega.Procesando_entrega"></activity>
+        <activity android:name=".ui.procesando_retiro.ProcesandoRetiroActivity"></activity>
+        <activity android:name=".ui.procesando_entrega.Procesando_entrega" />
         <activity android:name=".ui.RodandoBiciActivity" />
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.registro.RegistroActivity" />
         <activity android:name=".ui.instrucciones_devolucion.InstruccionesDevolucionActivity" />
-        <activity android:name=".ui.instrucciones_reserva.InstruccionesRetiroActivity" />
+        <activity android:name=".ui.instrucciones_retiro.InstruccionesRetiroActivity" />
         <activity android:name=".ui.reserva.ReservaActivity" />
         <activity android:name=".ui.bicicletas_estacion.EstacionBicicletasActivity" />
         <!--

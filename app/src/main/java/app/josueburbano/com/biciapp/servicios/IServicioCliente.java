@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface IServicioCliente {
 
-    public static final String BASE_URL = "http:/192.168.100.64:45455";
+    public static final String BASE_URL = "http:/192.168.100.66:45455";
     @POST("/ClientesServicio.svc/clientes/authentication")
     Call<Cliente> obtenerClienteLogueado(@Query("usuario") String usuario, @Query("passw")String passw);
 
