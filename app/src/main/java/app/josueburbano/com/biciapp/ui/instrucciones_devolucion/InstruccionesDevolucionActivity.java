@@ -130,7 +130,6 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             }
         });
 
-        //Obtener el usuario proveniente de la activity anterior (Login)
         Intent intent = getIntent();
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
         bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);

@@ -1,12 +1,15 @@
 package app.josueburbano.com.biciapp.ui.instrucciones_retiro;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,8 @@ import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.RodandoBiciActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
+import app.josueburbano.com.biciapp.ui.main.MainActivity;
+import app.josueburbano.com.biciapp.ui.map_estaciones.MapViewFragment;
 import app.josueburbano.com.biciapp.ui.procesando_entrega.Procesando_entrega;
 import app.josueburbano.com.biciapp.ui.procesando_retiro.ProcesandoRetiroActivity;
 
@@ -47,10 +52,14 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
 
 
+
+
         final TextView step1TextView = findViewById(R.id.step1TextView);
         final TextView step2TextView = findViewById(R.id.step2TextView);
         final TextView step3TextView = findViewById(R.id.step3TextView);
         final TextView step4TextView = findViewById(R.id.step4TextView);
+        final Button buttonCancelar = findViewById(R.id.btnCancelar);
+        buttonCancelar.setEnabled(false);
 
 
         step1TextView.setText(getString(R.string.step_one_instructions_to) + estacionView.getNombre()
@@ -66,6 +75,20 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, new InstruccionRetiroViewModelFactory())
                 .get(InstruccionesRetiroViewModel.class);
+
+        if(reservaView == null){
+            viewModel.obtenerReservaActiva(clienteView.getId());
+        }else{
+            buttonCancelar.setEnabled(true);
+        }
+
+        viewModel.getReserva().observe(this, new Observer<Reserva>() {
+            @Override
+            public void onChanged(@Nullable Reserva reserva) {
+                reservaView = reserva;
+                buttonCancelar.setEnabled(true);
+            }
+        });
 
         viewModel.obtenerBiciEstacion(bicicletaView.getId());
 
@@ -116,5 +139,38 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         intent.putExtra(RESERVA_VIEW,  reservaView);
         intent.putExtra(BICICLETA_VIEW, bicicletaView);
         startActivity(intent);
+    }
+
+    public void CancelarReserva(View view){
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Confirmación")
+                .setMessage("Seguro de eliminar la reserva"
+                        + "\nFecha: "+reservaView.getFecha()+"\nHora inicio: " + reservaView.getHoraFin() + "\nHora Fin: " + reservaView.getHoraInicio())
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.cancelarReserva(reservaView.getId());
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+
+        viewModel.getReservaCancelada().observe(this, new Observer<Reserva>() {
+            @Override
+            public void onChanged(@Nullable Reserva reserva) {
+                //if(reserva.getFecha().equals(reservaView.getFecha())&& reserva.getHoraInicio().equals(reservaView.getHoraInicio())&&
+                //reserva.getHoraFin().equals(reservaView.getHoraFin())){
+                if(reserva.getId().equals(reservaView.getId())){
+                    Toast.makeText(getApplicationContext(), "Reserva cancelada con éxito", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra(CLIENT_VIEW, clienteView);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Hubo un problema cancelando su reserva. Intente más tarde", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 }

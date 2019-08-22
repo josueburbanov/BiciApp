@@ -82,7 +82,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                         public void run() {
                             intetar_retirar_bici();
                             contador++;
-                            if (contador >= 4) {
+                            if (contador >= 30) {
                                 handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                 Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                 finish();
@@ -104,7 +104,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                             public void run() {
                                 intetar_retirar_bici();
                                 contador++;
-                                if (contador >= 4) {
+                                if (contador >= 30) {
                                     handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                     Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                     finish();
@@ -122,7 +122,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 6 * 1000; //Delay for 6 seconds.  One second = 1000 milliseconds.
+    int delay = 10 * 1000; //Delay for 6 seconds.  One second = 1000 milliseconds.
     int contador = 0;
 
 

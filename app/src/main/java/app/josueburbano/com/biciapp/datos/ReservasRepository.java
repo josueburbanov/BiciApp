@@ -113,6 +113,37 @@ public class ReservasRepository {
         return data;
     }
 
+    public LiveData<Reserva> cancelarReserva(String idReserva) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IServicioCliente.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IServicioReservas service = retrofit.create(IServicioReservas.class);
+
+        //Llamada HTTP
+        Call<Reserva> requestClienteL = service.cancelarReserva(idReserva);
+        requestClienteL.enqueue(new Callback<Reserva>() {
+            @Override
+            public void onResponse(Call<Reserva> call, Response<Reserva> response) {
+                if (!response.isSuccessful()) {
+                    data.setValue(null);
+                } else {
+                    data.setValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<Reserva> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+
+
+
 
     public MutableLiveData<Reserva> getData() {
         return data;

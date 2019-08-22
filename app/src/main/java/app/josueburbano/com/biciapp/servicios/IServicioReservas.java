@@ -22,5 +22,8 @@ public interface IServicioReservas {
     @GET("/ReservasServicio.svc/reservas/cliente/{idCliente}/activa")
     Call<Reserva> obtenerReservaActiva(@Path("idCliente") String idCliente);
 
+    @POST("/ReservasServicio.svc/reservas/cancelar/{idReserva}")
+    Call<Reserva> cancelarReserva(@Path("idReserva") String idReserva);
+
 
 }
