@@ -94,7 +94,7 @@ public class Procesando_entrega extends AppCompatActivity {
                             public void run() {
                                 intetar_entregar_bici();
                                 contador++;
-                                if (contador >= 30) {
+                                if (contador >= 20) {
                                     handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                     Toast.makeText(getApplicationContext(), "No se ha podido entregar la bicicleta", Toast.LENGTH_LONG).show();
                                     finish();
@@ -112,7 +112,7 @@ public class Procesando_entrega extends AppCompatActivity {
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 2 * 1000; //Delay for 6 seconds.  One second = 1000 milliseconds.
+    int delay = 2 * 1000; //Delay for 2 seconds.  One second = 1000 milliseconds.
     int contador = 0;
 
 

@@ -22,8 +22,6 @@ import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 import app.josueburbano.com.biciapp.ui.RodandoBiciActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 import app.josueburbano.com.biciapp.ui.main.MainActivity;
-import app.josueburbano.com.biciapp.ui.map_estaciones.MapViewFragment;
-import app.josueburbano.com.biciapp.ui.procesando_entrega.Procesando_entrega;
 import app.josueburbano.com.biciapp.ui.procesando_retiro.ProcesandoRetiroActivity;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
@@ -104,7 +102,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                         viewModel.obtenerCandado(biciCandado.getIdCandado());
 
                     }else{
-                        Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Por favor haga click en el botón Retirar y pase su tarjeta por el lector, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -114,10 +112,10 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Candado candado) {
                 if(candado == null){
-                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Por favor haga click en el botón Retirar y pase su tarjeta por el lector, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                 }else{
                     if(candado.isAbierto()){
-                    Toast.makeText(getApplicationContext(), "Candado abierto. Ahora la bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Candado abierto. La bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), RodandoBiciActivity.class);
                     intent.putExtra(ESTACION_VIEW, estacionView);
                     intent.putExtra(CLIENT_VIEW, clienteView);
@@ -125,7 +123,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                     intent.putExtra(BICICLETA_VIEW, bicicletaView);
                     startActivity(intent);
                 } else {
-                        Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Por favor haga click en el botón Retirar y pase su tarjeta por el lector, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                     }
                 }
             }

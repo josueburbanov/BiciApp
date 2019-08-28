@@ -81,9 +81,7 @@ public class BicisCandadosRepository {
             }
         });
         return data;
-
     }
-
         public MutableLiveData<BiciCandado> getData () {
             return data;
         }
