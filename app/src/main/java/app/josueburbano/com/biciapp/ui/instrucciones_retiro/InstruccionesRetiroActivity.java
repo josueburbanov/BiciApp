@@ -98,8 +98,11 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                 if (biciCandado == null) {
                     Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                 } else {
+                    step4TextView.setText(getString(R.string.step_4_1_instructions_to) + biciCandado.getIdCandado()+
+                            getString(R.string.step_4_2_instructions_to)+reservaView.getHoraFin());
                     if (!biciCandado.getEntregaRetiro()) {
                         viewModel.obtenerCandado(biciCandado.getIdCandado());
+
                     }else{
                         Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                     }

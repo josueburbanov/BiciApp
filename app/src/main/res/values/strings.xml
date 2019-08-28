@@ -31,6 +31,8 @@
     <string name="step_two_instructions_to">2. Su bicicleta contiene el código:\u0020</string>
     <string name="step_3_instructions_to">"3. El uso de su bicicleta es en la fecha:\u0020"</string>
     <string name="step_4_instructions_to">"4. Pase su tarjeta por el lector para que el candado se abra, no olvide devolver su bicicleta a las\u0020"</string>
+    <string name="step_4_1_instructions_to">"4. Pase su tarjeta por el lector para que el candado\u0020"</string>
+    <string name="step_4_2_instructions_to">"\u0020se abra, no olvide devolver su bicicleta a las\u0020"</string>
     <string name="ubicacion_estacion">\u0020en la dirección:\u0020</string>
     <string name="modelo_bicicleta">\u0020de modelo:\u0020</string>
     <string name="hora_entrega_bici">\u0020a las</string>
