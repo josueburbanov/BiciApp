@@ -148,8 +148,9 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         viewModel.getCandadosAbiertos().observe(this, new Observer<List<Candado>>() {
             @Override
             public void onChanged(@Nullable List<Candado> candados) {
-                if (candados != null) {
-                    if (candados.size() != 0) {
+
+                if (candados != null ) {
+                    if (candados.size() != 0 && candados.get(0)!= null) {
                         for (Estacion estacion : estacionesField) {
                             if (estacion.getId().equals(candados.get(0).getIdEstacion())) {
                                 colocarEstacionEnMapa(estacion, candados);
@@ -206,14 +207,12 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
             amarker.showInfoWindow();
-            Log.d("entra", "null");
         } else {
             LatLng posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Estación: " + estacion.getNombre()));
             amarker.setTitle("Estación: " + estacion.getNombre());
             amarker.setSnippet(estacion.getDireccion() + "\nCandados disponibles: " + candadosEstacion.size());
             amarker.setTag(candadosEstacion.get(0));
-            Log.d("entra", String.valueOf(candadosEstacion.size()));
         }
     }
 
