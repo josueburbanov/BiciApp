@@ -1,7 +1,9 @@
 package app.josueburbano.com.biciapp.ui.procesando_retiro;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -54,6 +56,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
         bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);
         estacionView = (Estacion) intent.getSerializableExtra(ESTACION_VIEW);
         reservaView = (Reserva) intent.getSerializableExtra(RESERVA_VIEW);
+        candadoView = (Candado)intent.getSerializableExtra(CANDADO_VIEW);
 
         viewModel = ViewModelProviders.of(this, new ProcesandoEntregaViewModelFactory())
                 .get(ProcesandoEntregaViewModel.class);
@@ -67,8 +70,9 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                     BiciCandado transaccionParcial = new BiciCandado();
                     transaccionParcial.setError("Retiro parcial");
                     //xxxxxxxxxxxxxxxxxx
-                    transaccionParcial.setIdCandado("canda01");
+                    //transaccionParcial.setIdCandado("canda01");
                     //xxxxxxxxxxxxxxxxxx
+                    transaccionParcial.setIdCandado(candadoView.getId());
                     transaccionParcial.setEntregaRetiro(true);
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String sdt = df.format(new Date(System.currentTimeMillis()));
@@ -77,12 +81,35 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                     transaccionParcial.setIdBici(bicicletaView.getId());
                     viewModel.realizarTransaccionParcial(transaccionParcial);
                     viewModel.getLastTransaccion().removeObserver(this);
-                }else{
+                }else if(!biciCandado.getEntregaRetiro() && !reservaView.isActiva()) {
+
+                    new AlertDialog.Builder(ProcesandoRetiroActivity.this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Confirmación")
+                            .setMessage("La bicicleta que intenta retirar aún no ha sido entregada o ha tenido un problema. ¿Desea que se le asigne otra bicicleta?")
+                            .setPositiveButton("Cambiar de bicicleta", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    handler.removeCallbacks(runnable);
+                                    Toast.makeText(ProcesandoRetiroActivity.this, "Implementar", Toast.LENGTH_LONG).show();
+
+                                }
+                            })
+                            .setNegativeButton("Anular reserva", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    handler.removeCallbacks(runnable);
+                                    Toast.makeText(ProcesandoRetiroActivity.this, "Implementar", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .show();
+                }
+                 else{
                     handler.postDelayed(runnable = new Runnable() {
                         public void run() {
                             intetar_retirar_bici();
                             contador++;
-                            if (contador >= 30) {
+                            if (contador >= 6) {
                                 handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                 Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                 finish();
@@ -104,7 +131,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                             public void run() {
                                 intetar_retirar_bici();
                                 contador++;
-                                if (contador >= 30) {
+                                if (contador >= 6) {
                                     handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                     Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                     finish();
@@ -122,7 +149,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 2 * 1000; //Delay for 6 seconds.  One second = 1000 milliseconds.
+    int delay = 2 * 1000; //Delay for 2 seconds.  One second = 1000 milliseconds.
     int contador = 0;
 
 

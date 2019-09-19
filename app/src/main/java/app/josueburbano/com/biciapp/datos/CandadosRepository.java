@@ -75,6 +75,33 @@ public class CandadosRepository {
         return candado;
     }
 
+    public LiveData<Candado> obtenerCandadoByBici(String idBici){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IServicioCliente.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IServicioCandados service = retrofit.create(IServicioCandados.class);
+
+        Call<Candado> candadoByBici = service.obtenerCandadoByBici(idBici);
+        candadoByBici.enqueue(new Callback<Candado>() {
+            @Override
+            public void onResponse(Call<Candado> call, Response<Candado> response) {
+                if (!response.isSuccessful()) {
+                    candado.setValue(null);
+                }else{
+                    candado.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Candado> call, Throwable t) {
+                candado.setValue(null);
+            }
+        });
+        return candado;
+    }
+
     public MutableLiveData<List<Candado>> getData() {
         return data;
     }

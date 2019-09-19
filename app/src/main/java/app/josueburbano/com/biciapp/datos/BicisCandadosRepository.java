@@ -15,7 +15,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BicisCandadosRepository {
-    private IServicioBicisCandados webservice;
     private MutableLiveData<BiciCandado> data = new MutableLiveData<>();
 
     public LiveData<BiciCandado> getBiciEstacion(String idBici, String idCandado) {

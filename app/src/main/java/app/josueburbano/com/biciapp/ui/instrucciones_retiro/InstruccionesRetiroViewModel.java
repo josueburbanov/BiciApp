@@ -16,6 +16,7 @@ public class InstruccionesRetiroViewModel extends ViewModel {
     private CandadosRepository candadosRepository;
     private ReservasRepository reservasRepository;
     private LiveData<Candado> candado;
+    private LiveData<Candado> candadoCerrado;
     private LiveData<Reserva> reserva;
     private LiveData<Reserva> reservaCancelada;
 
@@ -29,6 +30,7 @@ public class InstruccionesRetiroViewModel extends ViewModel {
 
         this.candadosRepository = candadosRepository;
         this.candado = candadosRepository.getCandado();
+        this.candadoCerrado = candadosRepository.getCandado();
 
         this.reservasRepository = reservasRepository;
         this.reserva = reservasRepository.getData();
@@ -48,13 +50,16 @@ public class InstruccionesRetiroViewModel extends ViewModel {
     public void obtenerReservaActiva(String idCliente){
         reserva = reservasRepository.obtenerReservaActiva(idCliente);
     }
-
+    public void obtenerCandadoByBici(String idBici){
+        candadoCerrado = candadosRepository.obtenerCandadoByBici(idBici);
+    }
 
     //Para observar
     public LiveData<BiciCandado> getBiciEstacion() {
         return this.biciEstacion;
     }
     public LiveData<Candado> getCandado() {return this.candado;}
+    public LiveData<Candado> getCandadoCerrado() {return this.candado;}
     public LiveData<Reserva> getReserva(){return this.reserva;}
     public LiveData<Reserva> getReservaCancelada(){return this.reservaCancelada;}
 

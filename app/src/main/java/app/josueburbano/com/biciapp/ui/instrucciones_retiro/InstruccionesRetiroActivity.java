@@ -25,6 +25,7 @@ import app.josueburbano.com.biciapp.ui.main.MainActivity;
 import app.josueburbano.com.biciapp.ui.procesando_retiro.ProcesandoRetiroActivity;
 
 import static app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity.BICICLETA_VIEW;
+import static app.josueburbano.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity.CANDADO_VIEW;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.ESTACION_VIEW;
 import static app.josueburbano.com.biciapp.ui.reserva.ReservaActivity.RESERVA_VIEW;
@@ -35,6 +36,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
     private Estacion estacionView;
     private Bicicleta bicicletaView;
     private LoginClienteView clienteView;
+    private Candado candadoView;
     private InstruccionesRetiroViewModel viewModel;
 
     @Override
@@ -49,16 +51,12 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         bicicletaView = (Bicicleta) intent.getSerializableExtra(BICICLETA_VIEW);
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
 
-
-
-
         final TextView step1TextView = findViewById(R.id.step1TextView);
         final TextView step2TextView = findViewById(R.id.step2TextView);
         final TextView step3TextView = findViewById(R.id.step3TextView);
         final TextView step4TextView = findViewById(R.id.step4TextView);
         final Button buttonCancelar = findViewById(R.id.btnCancelar);
         buttonCancelar.setEnabled(false);
-
 
         step1TextView.setText(getString(R.string.step_one_instructions_to) + estacionView.getNombre()
         + getString(R.string.ubicacion_estacion) + estacionView.getDireccion());
@@ -88,6 +86,20 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
             }
         });
 
+        if(candadoView == null){
+            viewModel.obtenerCandadoByBici(bicicletaView.getId());
+
+        }
+
+        viewModel.getCandadoCerrado().observe(this, new Observer<Candado>() {
+            @Override
+            public void onChanged(@Nullable Candado candado) {
+                candadoView = candado;
+            }
+        });
+
+
+
         viewModel.obtenerBiciEstacion(bicicletaView.getId());
 
         viewModel.getBiciEstacion().observe(this, new Observer<BiciCandado>() {
@@ -116,11 +128,13 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
                 }else{
                     if(candado.isAbierto()){
                     Toast.makeText(getApplicationContext(), "Candado abierto. La bicicleta está bajo su responsabilidad", Toast.LENGTH_LONG).show();
+                    candadoView = candado;
                     Intent intent = new Intent(getApplicationContext(), RodandoBiciActivity.class);
                     intent.putExtra(ESTACION_VIEW, estacionView);
                     intent.putExtra(CLIENT_VIEW, clienteView);
                     intent.putExtra(RESERVA_VIEW,  reservaView);
                     intent.putExtra(BICICLETA_VIEW, bicicletaView);
+                    intent.putExtra(CANDADO_VIEW, candadoView);
                     startActivity(intent);
                 } else {
                         Toast.makeText(getApplicationContext(), "Por favor haga click en el botón Retirar y pase su tarjeta por el lector, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
@@ -139,6 +153,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
         intent.putExtra(ESTACION_VIEW, estacionView);
         intent.putExtra(RESERVA_VIEW,  reservaView);
         intent.putExtra(BICICLETA_VIEW, bicicletaView);
+        intent.putExtra(CANDADO_VIEW, candadoView);
         startActivity(intent);
     }
 

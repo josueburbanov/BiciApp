@@ -3,11 +3,11 @@ package app.josueburbano.com.biciapp.datos.modelos;
 import java.io.Serializable;
 
 public class Bicicleta implements Serializable {
-    private String estado;
+    private boolean estado;
     private String modelo;
     private String id;
 
-    public String getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
@@ -28,7 +28,7 @@ public class Bicicleta implements Serializable {
         this.id = id;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 

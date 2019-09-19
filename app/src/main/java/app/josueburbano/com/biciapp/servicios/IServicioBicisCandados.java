@@ -18,7 +18,7 @@ public interface IServicioBicisCandados {
     @GET("/BicisCandadosServicio.svc/bicisCandados/biciCandadoActual")
     Call<BiciCandado> obtenerBiciCandadoByIds_Actual(@Query("candado") String idCandado, @Query("bici")String idBici);
 
-    @GET("/BicisCandadosServicio.svc/bicisCandados/bicicletas/{idEstacion}")
+    @GET("/BicisCandadosServicio.svc/bicisCandados/estacion/{idEstacion}/bicis/disponibles")
     Call<List<Bicicleta>> obtenerBicisByEstacion(@Path("idEstacion") String idEstacion);
 
     @POST("/BicisCandadosServicio.svc/bicisCandados/nueva")

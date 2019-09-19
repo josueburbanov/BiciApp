@@ -72,7 +72,7 @@ public class Procesando_entrega extends AppCompatActivity {
                         public void run() {
                             intetar_entregar_bici();
                             contador++;
-                            if (contador >= 4) {
+                            if (contador >= 12) {
                                 handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                 Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                 finish();
@@ -89,12 +89,12 @@ public class Procesando_entrega extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if (biciCandado != null) {
-                    if (biciCandado.getError() != null || biciCandado.getEntregaRetiro()) {
+                    if (biciCandado.getError() != null || !biciCandado.getEntregaRetiro()) {
                         handler.postDelayed(runnable = new Runnable() {
                             public void run() {
                                 intetar_entregar_bici();
                                 contador++;
-                                if (contador >= 20) {
+                                if (contador >= 12) {
                                     handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                     Toast.makeText(getApplicationContext(), "No se ha podido entregar la bicicleta", Toast.LENGTH_LONG).show();
                                     finish();
