@@ -24,14 +24,14 @@
 
     <TextView
         android:id="@+id/textViewHoraEntrega"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="345dp"
+        android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:text="Procesando entrega.\nTiempo para colocar la bicicleta antes de que se cierre el candado 10 seg."
+        android:text="Procesando entrega.\nCuando se encienda la luz del candado, tiene 10 seg. para colocar la bicicleta y completar la transacción."
         android:textColor="@color/common_google_signin_btn_text_light_focused"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
