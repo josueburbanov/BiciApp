@@ -41,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login_btn);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-
-
         viewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 

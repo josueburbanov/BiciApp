@@ -23,7 +23,7 @@ public class EstacionBicicletasViewModel extends ViewModel {
     }
 
     //Para observar
-    public LiveData<List<Bicicleta>> getBicicletas() {
+    public LiveData<List<Bicicleta>> observarBicicletas() {
         return this.bicicletas;
     }
 

@@ -56,7 +56,7 @@ public class EstacionBicicletasActivity extends AppCompatActivity {
 
         viewModel.obtenerBicicletas(estacionView.getId());
 
-        viewModel.getBicicletas().observe(this, new Observer<List<Bicicleta>>() {
+        viewModel.observarBicicletas().observe(this, new Observer<List<Bicicleta>>() {
             @Override
             public void onChanged(@Nullable List<Bicicleta> bicicletas) {
                 adapter = new ArrayAdapter<Bicicleta>(getApplicationContext(),
