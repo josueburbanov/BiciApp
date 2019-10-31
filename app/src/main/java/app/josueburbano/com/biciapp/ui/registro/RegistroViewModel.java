@@ -3,11 +3,7 @@ package app.josueburbano.com.biciapp.ui.registro;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
-import app.josueburbano.com.biciapp.datos.BicicletasRepository;
-import app.josueburbano.com.biciapp.datos.ClienteRepository;
-import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
+import app.josueburbano.com.biciapp.datos.repos.ClienteRepository;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
 
 public class RegistroViewModel extends ViewModel {

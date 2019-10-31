@@ -3,9 +3,9 @@ package app.josueburbano.com.biciapp.ui.instrucciones_retiro;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import app.josueburbano.com.biciapp.datos.BicisCandadosRepository;
-import app.josueburbano.com.biciapp.datos.CandadosRepository;
-import app.josueburbano.com.biciapp.datos.ReservasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicisCandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.CandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.ReservasRepository;
 import app.josueburbano.com.biciapp.datos.modelos.BiciCandado;
 import app.josueburbano.com.biciapp.datos.modelos.Candado;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;

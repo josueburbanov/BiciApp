@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Patterns;
 
 import app.josueburbano.com.biciapp.R;
-import app.josueburbano.com.biciapp.datos.ClienteRepository;
+import app.josueburbano.com.biciapp.datos.repos.ClienteRepository;
 import app.josueburbano.com.biciapp.datos.modelos.Cliente;
 
 

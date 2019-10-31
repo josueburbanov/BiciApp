@@ -4,8 +4,8 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import app.josueburbano.com.biciapp.datos.CandadosRepository;
-import app.josueburbano.com.biciapp.datos.EstacionesRepository;
+import app.josueburbano.com.biciapp.datos.repos.CandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.EstacionesRepository;
 
 public class InstruccionesDevViewModelFactory implements ViewModelProvider.Factory {
     @NonNull

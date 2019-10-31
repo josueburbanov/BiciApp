@@ -3,7 +3,7 @@ package app.josueburbano.com.biciapp.ui.reserva;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import app.josueburbano.com.biciapp.datos.ReservasRepository;
+import app.josueburbano.com.biciapp.datos.repos.ReservasRepository;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
 
 public class ReservaViewModel extends ViewModel {

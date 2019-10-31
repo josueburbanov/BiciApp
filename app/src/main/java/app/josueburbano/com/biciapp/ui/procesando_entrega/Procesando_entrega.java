@@ -72,7 +72,7 @@ public class Procesando_entrega extends AppCompatActivity {
                         public void run() {
                             intetar_entregar_bici();
                             contador++;
-                            if (contador >= 12) {
+                            if (contador >= 40) {
                                 handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                 Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                 finish();

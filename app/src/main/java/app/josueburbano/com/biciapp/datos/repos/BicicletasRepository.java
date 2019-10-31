@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp.datos;
+package app.josueburbano.com.biciapp.datos.repos;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -17,8 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BicicletasRepository {
     private IServicioBicisCandados webservice;
-    private MutableLiveData<List<Bicicleta>> data = new MutableLiveData<>();
     private MutableLiveData<Bicicleta> bicicleta = new MutableLiveData<>();
+    private MutableLiveData<List<Bicicleta>> data = new MutableLiveData<>();
 
     public LiveData<List<Bicicleta>> getBicicletas(String idEstacion) {
 
@@ -39,12 +39,14 @@ public class BicicletasRepository {
                     data.setValue(response.body());
                 }
             }
-
             @Override
             public void onFailure(Call<List<Bicicleta>> call, Throwable t) {
                 data.setValue(null);
             }
         });
+        return data;
+    }
+    public MutableLiveData<List<Bicicleta>> getData() {
         return data;
     }
 
@@ -77,9 +79,7 @@ public class BicicletasRepository {
     }
 
 
-    public MutableLiveData<List<Bicicleta>> getData() {
-        return data;
-    }
+
     public MutableLiveData<Bicicleta> getBicicleta() {
         return bicicleta;
     }

@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
-import app.josueburbano.com.biciapp.datos.BicicletasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicicletasRepository;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 
 public class EstacionBicicletasViewModel extends ViewModel {

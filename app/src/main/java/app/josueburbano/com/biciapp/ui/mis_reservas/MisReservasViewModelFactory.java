@@ -4,9 +4,9 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import app.josueburbano.com.biciapp.datos.BicicletasRepository;
-import app.josueburbano.com.biciapp.datos.EstacionesRepository;
-import app.josueburbano.com.biciapp.datos.ReservasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicicletasRepository;
+import app.josueburbano.com.biciapp.datos.repos.EstacionesRepository;
+import app.josueburbano.com.biciapp.datos.repos.ReservasRepository;
 
 public class MisReservasViewModelFactory implements ViewModelProvider.Factory {
     @NonNull

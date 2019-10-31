@@ -1,8 +1,7 @@
-package app.josueburbano.com.biciapp.datos;
+package app.josueburbano.com.biciapp.datos.repos;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
 import java.util.List;
 

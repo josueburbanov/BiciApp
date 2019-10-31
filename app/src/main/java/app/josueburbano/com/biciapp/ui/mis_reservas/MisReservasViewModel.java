@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
-import app.josueburbano.com.biciapp.datos.BicicletasRepository;
-import app.josueburbano.com.biciapp.datos.EstacionesRepository;
-import app.josueburbano.com.biciapp.datos.ReservasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicicletasRepository;
+import app.josueburbano.com.biciapp.datos.repos.EstacionesRepository;
+import app.josueburbano.com.biciapp.datos.repos.ReservasRepository;
 import app.josueburbano.com.biciapp.datos.modelos.Bicicleta;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
 import app.josueburbano.com.biciapp.datos.modelos.Reserva;
@@ -24,7 +24,6 @@ public class MisReservasViewModel extends ViewModel {
             bicicletasRepository, EstacionesRepository estacionesRepository) {
         this.reservasRepo = reservasRepo;
         this.reservas = this.reservasRepo.getReservas();
-
         this.bicicletasRepository = bicicletasRepository;
         this.bicicletaReserva = this.bicicletasRepository.getBicicleta();
 

@@ -4,9 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import app.josueburbano.com.biciapp.datos.BicisCandadosRepository;
-import app.josueburbano.com.biciapp.datos.ClienteRepository;
-import app.josueburbano.com.biciapp.ui.registro.RegistroViewModel;
+import app.josueburbano.com.biciapp.datos.repos.BicisCandadosRepository;
 
 public class ProcesandoEntregaViewModelFactory implements ViewModelProvider.Factory {
     @NonNull

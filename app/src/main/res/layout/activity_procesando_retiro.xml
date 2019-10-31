@@ -33,8 +33,11 @@
         android:layout_marginRight="24dp"
         android:text="Procesando retiro.\nCuando se encienda la luz del candado tiene 10 seg. para retirar su bicicleta y completar la transacción."
         android:textColor="@color/common_google_signin_btn_text_light_focused"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gifImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gifImageView"
+        app:layout_constraintVertical_bias="0.204" />
 
 </android.support.constraint.ConstraintLayout>

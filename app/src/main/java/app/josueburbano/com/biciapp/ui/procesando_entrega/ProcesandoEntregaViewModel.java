@@ -3,7 +3,7 @@ package app.josueburbano.com.biciapp.ui.procesando_entrega;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import app.josueburbano.com.biciapp.datos.BicisCandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicisCandadosRepository;
 import app.josueburbano.com.biciapp.datos.modelos.BiciCandado;
 
 public class ProcesandoEntregaViewModel extends ViewModel {

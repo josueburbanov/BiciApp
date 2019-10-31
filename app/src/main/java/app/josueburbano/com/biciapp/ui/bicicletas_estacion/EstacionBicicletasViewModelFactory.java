@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import app.josueburbano.com.biciapp.datos.BicicletasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicicletasRepository;
 
 public class EstacionBicicletasViewModelFactory implements ViewModelProvider.Factory {
     @NonNull

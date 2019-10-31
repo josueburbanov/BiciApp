@@ -5,9 +5,9 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import app.josueburbano.com.biciapp.datos.BicisCandadosRepository;
-import app.josueburbano.com.biciapp.datos.CandadosRepository;
-import app.josueburbano.com.biciapp.datos.ReservasRepository;
+import app.josueburbano.com.biciapp.datos.repos.BicisCandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.CandadosRepository;
+import app.josueburbano.com.biciapp.datos.repos.ReservasRepository;
 
 public class InstruccionRetiroViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
