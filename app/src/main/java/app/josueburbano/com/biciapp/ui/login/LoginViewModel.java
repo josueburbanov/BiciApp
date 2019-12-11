@@ -68,7 +68,7 @@ public class LoginViewModel extends ViewModel {
 
     public void updateLoginActivityEstado(Cliente cliente) {
         if(cliente != null){
-            loginResultado.setValue(new LoginResultado(new LoginClienteView(cliente.getUsuario(), cliente.getId())));
+            loginResultado.setValue(new LoginResultado(new LoginClienteView(cliente.getUsuario(), cliente.getId(), cliente.getRfid())));
         }else{
             loginResultado.setValue(new LoginResultado(R.string.login_failed));
         }

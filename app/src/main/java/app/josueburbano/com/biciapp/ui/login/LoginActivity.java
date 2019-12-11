@@ -71,11 +71,11 @@ public class LoginActivity extends AppCompatActivity {
                     showLoginFailed(loginResult.getError());
                     usernameEditText.setText("");
                     passwordEditText.setText("");
+                    loadingProgressBar.setVisibility(View.INVISIBLE);
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
                 }
-                setResult(Activity.RESULT_OK);
             }
         });
 
@@ -142,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
-
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 

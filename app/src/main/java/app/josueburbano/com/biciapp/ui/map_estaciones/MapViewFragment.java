@@ -11,22 +11,24 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,11 +37,12 @@ import java.util.List;
 
 import app.josueburbano.com.biciapp.R;
 import app.josueburbano.com.biciapp.datos.modelos.Estacion;
+import app.josueburbano.com.biciapp.ui.CustomDialogFragment;
+import app.josueburbano.com.biciapp.ui.InformacionActivity;
 import app.josueburbano.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
 import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
-import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
 public class MapViewFragment extends Fragment implements LocationListener{
     MapView mMapView;
@@ -52,6 +55,24 @@ public class MapViewFragment extends Fragment implements LocationListener{
     private LoginClienteView clienteView;
     private MapsViewModel viewModel;
 
+
+    public void metodoExcDialog1() {
+        Intent openIntent = new Intent(getActivity(), InformacionActivity.class);
+        startActivity(openIntent);
+    }
+
+    public void metodoExcDialog2() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jotzu3@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Solicitud de tarjeta de identificación");
+        i.putExtra(Intent.EXTRA_TEXT   , "Mi nombre es: "+ clienteView.getNombreDisplay()+" y deseo la emisión de mi tarjeta de usuario");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "Solicitud enviada", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_location, container, false);
@@ -70,6 +91,23 @@ public class MapViewFragment extends Fragment implements LocationListener{
         //Obtener el usuario proveniente de la activity anterior (Login)
         Intent intent = getActivity().getIntent();
         clienteView = (LoginClienteView) intent.getSerializableExtra(CLIENT_VIEW);
+
+        if(clienteView.getRfid() == null){
+            CustomDialogFragment dialog = new CustomDialogFragment();
+            dialog.setTitulo("Aún no tienes una tarjeta de usuario...");
+            dialog.setMensaje("Para poder utilizar nuestros servicios es necesario tener una tarjeta de autenticación.");
+            dialog.setMensajeBtnPositivo("Solicitar tarjeta");
+            dialog.setMensajeBtnNegativo("Más información");
+            dialog.objectCont = this;
+            try {
+                dialog.metodoBtnNegativo = ( MapViewFragment.class.getMethod("metodoExcDialog1"));
+                dialog.setMetodoBtnPositivo( ( MapViewFragment.class.getMethod("metodoExcDialog2")));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            dialog.show(getFragmentManager(), "NoticeDialogFragment");
+            dialog.setCancelable(false);
+        }
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -115,9 +153,14 @@ public class MapViewFragment extends Fragment implements LocationListener{
         viewModel.getEstaciones().observe(this, new Observer<List<Estacion>>() {
             @Override
             public void onChanged(@Nullable List<Estacion> estaciones) {
-                //Coloca el pin para cada estación
-                for (Estacion estacion : estaciones) {
-                    colocarEstacionEnMapa(estacion);
+                if(estaciones != null) {
+                    //Coloca el pin para cada estación
+                    for (Estacion estacion : estaciones) {
+                        colocarEstacionEnMapa(estacion);
+                    }
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Ha habido un problema" +
+                            "con el servidor. No se han cargado estaciones.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -259,5 +302,26 @@ public class MapViewFragment extends Fragment implements LocationListener{
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (clienteView.getRfid() == null) {
+            CustomDialogFragment dialog = new CustomDialogFragment();
+            dialog.setTitulo("Aún no tienes una tarjeta de usuario...");
+            dialog.setMensaje("Para poder utilizar nuestros servicios es necesario tener una tarjeta de autenticación.");
+            dialog.setMensajeBtnPositivo("Solicitar tarjeta");
+            dialog.setMensajeBtnNegativo("Más información");
+            dialog.objectCont = this;
+            try {
+                dialog.metodoBtnNegativo = (MapViewFragment.class.getMethod("metodoExcDialog1"));
+                dialog.setMetodoBtnPositivo((MapViewFragment.class.getMethod("metodoExcDialog2")));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            dialog.show(getFragmentManager(), "NoticeDialogFragment");
+            dialog.setCancelable(false);
+        }
     }
 }

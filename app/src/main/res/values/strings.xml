@@ -42,4 +42,28 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="entrega_bici">Recuerde entregar su bicicleta a las</string>
+    <string name="title_activity_informacion">Información BiciApp</string>
+    <string name="large_text">
+        "Información de Usuario para BiciApp.\n\n"
+
+        "Esta aplicación está realizada para la reserva de bicicletas. Para que el sistema funcione, "
+        "tanto las bicicletas como los usuarios deben contar con tarjetas identificadoras, provistas"
+        "por BiciApp.\n"
+        "Una vez que el usuario haya obtenido su tarjeta identificadora, es posible realizar reservas."
+        "A continuación se muestran una serie de pasos para el uso de una bicicleta: \n"
+        "1. Seleccionar una estación de la cual se requiera una bicicleta.\n"
+        "2. Seleccionar una bicicleta. El stock de las bicicletas depende de la demanda de los usuarios.\n"
+        "3. Seleccionar la hora y fecha que se pretende utilizar la bicicleta. Realizar una reserva.\n"
+        "4. Retirar la bicicleta dentro de la hora y fechas de reserva. Para ello es necesario accionar el botón retirar"
+        "en la aplicación y pasar el identificador de usuario por el lector de tarjetas de usuario presente en"
+        "cada estación. Se tendrá 10 seg aproximadamente para retirar la bicicleta del candado.\n"
+
+        "5. Utilizar la bicicleta.\n"
+        "6. Entregar la bicicleta antes de la hora acordada. Para ello accionar, en la aplicación móvil,"
+        "accionar el botón Entregar, el cual mostrará un mapa en donde se seleccionará la estación en donde se pretende"
+        "entregar la bicicleta. Se asignará un candado en el cual se deberá colocar la bicicleta, luego, se deberá pasar la tarjeta"
+        "de identificación por el lector y esté se encargará de procesar y verficar la entrega."
+        "\n\n"
+    </string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -19,7 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.procesando_retiro.ProcesandoRetiroActivity"></activity>
+        <activity
+            android:name=".ui.InformacionActivity"
+            android:label="@string/title_activity_informacion"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ui.procesando_retiro.ProcesandoRetiroActivity" />
         <activity android:name=".ui.procesando_entrega.Procesando_entrega" />
         <activity android:name=".ui.RodandoBiciActivity" />
         <activity
