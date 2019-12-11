@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ import app.josueburbano.com.biciapp.ui.login.LoginClienteView;
 import static app.josueburbano.com.biciapp.ui.login.LoginActivity.CLIENT_VIEW;
 import static app.josueburbano.com.biciapp.ui.map_estaciones.MapsActivity.MY_PERMISSIONS_REQUEST_LOCATION;
 
-public class MapViewFragment extends Fragment {
+public class MapViewFragment extends Fragment implements LocationListener{
     MapView mMapView;
     private GoogleMap mMap;
     protected LocationManager locationManager;
@@ -74,7 +75,6 @@ public class MapViewFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
-                //mMap.setOnMarkerClickListener(this);
                 mMap.setInfoWindowAdapter(new InfoAdapter(getLayoutInflater()));
                 colocarEstacionEnMapa(null);
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -86,6 +86,18 @@ public class MapViewFragment extends Fragment {
                             intent.putExtra(ESTACION_VIEW, (Estacion) marker.getTag());
                             startActivity(intent);
                         }
+                    }
+                });
+                mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                    @Override
+                    public void onMyLocationChange(Location location) {
+                        mMap.clear();
+                        LatLng posicionActual = new LatLng(latitude, longitude);
+                        Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
+                        amarker.showInfoWindow();
+                        Log.d("TAG", "onLocationChanged" + amarker.getTitle());
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
                     }
                 });
             }
@@ -120,7 +132,7 @@ public class MapViewFragment extends Fragment {
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Tú estás aquí"));
             amarker.setTitle("Tú estás aquí");
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
             amarker.showInfoWindow();
         } else {
             LatLng posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
@@ -224,4 +236,28 @@ public class MapViewFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        mMap.clear();
+        LatLng posicionActual = new LatLng(latitude, longitude);
+        Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
+        amarker.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }

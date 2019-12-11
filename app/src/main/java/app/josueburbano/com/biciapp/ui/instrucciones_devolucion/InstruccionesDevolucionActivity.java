@@ -235,7 +235,6 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         LatLng posicionActual = new LatLng(latitude, longitude);
         Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
         amarker.showInfoWindow();
-        Log.d("TAG", "onLocationChanged" + amarker.getTitle());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
     }
