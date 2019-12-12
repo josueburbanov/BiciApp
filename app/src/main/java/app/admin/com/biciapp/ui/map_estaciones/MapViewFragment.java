@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -27,6 +31,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -130,6 +136,8 @@ public class MapViewFragment extends Fragment implements LocationListener{
                         mMap.clear();
                         LatLng posicionActual = new LatLng(latitude, longitude);
                         Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
+                        amarker.setIcon(bitmapDescriptorFromVector(getContext(), R.drawable.ic_location_on_black_24dp));
+
                         amarker.showInfoWindow();
                         Log.d("TAG", "onLocationChanged" + amarker.getTitle());
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
@@ -172,6 +180,7 @@ public class MapViewFragment extends Fragment implements LocationListener{
             LatLng posicion = new LatLng(latitude, longitude);
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Tú estás aquí"));
             amarker.setTitle("Tú estás aquí");
+            amarker.setIcon(bitmapDescriptorFromVector(getContext(), R.drawable.ic_location_on_black_24dp));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
             amarker.showInfoWindow();
@@ -321,5 +330,16 @@ public class MapViewFragment extends Fragment implements LocationListener{
             dialog.show(getFragmentManager(), "NoticeDialogFragment");
             dialog.setCancelable(false);
         }
+    }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_black_24dp);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }

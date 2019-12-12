@@ -30,7 +30,7 @@ public class InfoAdapter implements GoogleMap.InfoWindowAdapter {
         if (marker != null) {
             View v = inflater.inflate(R.layout.info_layout, null);
             bike_icon = (ImageView) v.findViewById(R.id.busicon);
-            bike_icon.setImageResource(R.drawable.ic_location_on_black_24dp);
+            bike_icon.setImageResource(R.drawable.ic_action_name);
             textViewstopName = (TextView) v.findViewById(R.id.businfo);
             textViewstopName.setText(marker.getTitle());
             arrivalTime = (TextView) v.findViewById(R.id.arrivalinfo);
