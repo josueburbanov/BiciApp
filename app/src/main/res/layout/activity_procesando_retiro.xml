@@ -31,7 +31,7 @@
         android:layout_marginTop="84dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="40dp"
         android:text="Procesando retiro.\nCuando se encienda la luz del candado tiene 10 seg. para retirar su bicicleta y completar la transacción."
         android:textColor="@color/common_google_signin_btn_text_light_focused"
         app:layout_constraintBottom_toBottomOf="parent"

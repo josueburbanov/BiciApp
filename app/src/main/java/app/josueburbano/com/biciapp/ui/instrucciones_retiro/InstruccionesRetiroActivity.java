@@ -106,7 +106,7 @@ public class InstruccionesRetiroActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if (biciCandado == null) {
-                    Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Por favor pase su tarjeta por el lector y vuelva a hacer click el botón de retirar, asegúrese que su reserva coincida con la hora actual.", Toast.LENGTH_LONG).show();
                 } else {
                     step4TextView.setText(getString(R.string.step_4_1_instructions_to) + biciCandado.getIdCandado()+
                             getString(R.string.step_4_2_instructions_to)+reservaView.getHoraFin());
