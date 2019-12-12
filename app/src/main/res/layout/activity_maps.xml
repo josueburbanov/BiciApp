@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
-    tools:context=".ui.login.LoginActivity"
+    tools:context="app.admin.com.biciapp.ui.login.LoginActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -43,7 +43,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewEstacion"
-                tools:context=".ui.map_estaciones.MapsActivity" />
+                tools:context="app.admin.com.biciapp.ui.map_estaciones.MapsActivity" />
 
             <TextView
                 android:id="@+id/tituloMaps"

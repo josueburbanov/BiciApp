@@ -20,20 +20,20 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.InformacionActivity"
+            android:name="app.admin.com.biciapp.ui.InformacionActivity"
             android:label="@string/title_activity_informacion"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ui.procesando_retiro.ProcesandoRetiroActivity" />
-        <activity android:name=".ui.procesando_entrega.Procesando_entrega" />
-        <activity android:name=".ui.RodandoBiciActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.procesando_retiro.ProcesandoRetiroActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.procesando_entrega.Procesando_entrega" />
+        <activity android:name="app.admin.com.biciapp.ui.RodandoBiciActivity" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="app.admin.com.biciapp.ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.registro.RegistroActivity" />
-        <activity android:name=".ui.instrucciones_devolucion.InstruccionesDevolucionActivity" />
-        <activity android:name=".ui.instrucciones_retiro.InstruccionesRetiroActivity" />
-        <activity android:name=".ui.reserva.ReservaActivity" />
-        <activity android:name=".ui.bicicletas_estacion.EstacionBicicletasActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.registro.RegistroActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.instrucciones_retiro.InstruccionesRetiroActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.reserva.ReservaActivity" />
+        <activity android:name="app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -47,10 +47,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.map_estaciones.MapsActivity"
+            android:name="app.admin.com.biciapp.ui.map_estaciones.MapsActivity"
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.login.LoginActivity">
+        <activity android:name="app.admin.com.biciapp.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

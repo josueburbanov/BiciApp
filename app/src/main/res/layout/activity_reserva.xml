@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.reserva.ReservaActivity">
+    tools:context="app.admin.com.biciapp.ui.reserva.ReservaActivity">
 
     <TextView
         android:id="@+id/step1TextView"
