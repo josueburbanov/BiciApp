@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Patterns;
 
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.repos.ClienteRepository;
 import app.admin.com.biciapp.datos.modelos.Cliente;
 

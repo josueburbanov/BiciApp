@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 import app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Estacion;
 import app.admin.com.biciapp.ui.CustomDialogFragment;
 import app.admin.com.biciapp.ui.InformacionActivity;
@@ -68,7 +68,7 @@ public class MapViewFragment extends Fragment implements LocationListener{
     public void metodoExcDialog2() {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"jotzu3@gmail.com"});
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"mabegeme94@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, "Solicitud de tarjeta de identificación");
         i.putExtra(Intent.EXTRA_TEXT   , "Mi nombre es: "+ clienteView.getNombreDisplay()+" y deseo la emisión de mi tarjeta de usuario");
         try {
@@ -137,7 +137,6 @@ public class MapViewFragment extends Fragment implements LocationListener{
                         LatLng posicionActual = new LatLng(latitude, longitude);
                         Marker amarker = mMap.addMarker(new MarkerOptions().position(posicionActual).title("Tú estás aquí"));
                         amarker.setIcon(bitmapDescriptorFromVector(getContext(), R.drawable.ic_location_on_black_24dp));
-
                         amarker.showInfoWindow();
                         Log.d("TAG", "onLocationChanged" + amarker.getTitle());
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(posicionActual));
@@ -146,6 +145,7 @@ public class MapViewFragment extends Fragment implements LocationListener{
                 });
             }
         });
+
 
         setMapsOnCurrentLocation();
 
@@ -188,8 +188,8 @@ public class MapViewFragment extends Fragment implements LocationListener{
             LatLng posicion = new LatLng(estacion.getLatitud(), estacion.getLongitud());
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Estación: " + estacion.getNombre()));
             amarker.setTitle("Estación: " + estacion.getNombre());
+            amarker.setIcon(bitmapDescriptorFromVector1(getContext(), R.drawable.ic_action_name));
             amarker.setSnippet(estacion.getDireccion());
-            //amarker.showInfoWindow();
             amarker.setTag(estacion);
         }
     }
@@ -333,6 +333,18 @@ public class MapViewFragment extends Fragment implements LocationListener{
     }
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
         Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_black_24dp);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector1(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_action_name);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);

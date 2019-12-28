@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import app.admin.com.biciapp.ui.map_estaciones.MapViewFragment;
 import app.admin.com.biciapp.ui.mis_reservas.MisReservasFragment;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;

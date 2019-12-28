@@ -14,7 +14,7 @@ import java.util.Date;
 
 import app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
 import app.admin.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.BiciCandado;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Candado;
@@ -68,7 +68,7 @@ public class Procesando_entrega extends AppCompatActivity {
                         public void run() {
                             intetar_entregar_bici();
                             contador++;
-                            if (contador >= 12) {
+                            if (contador >= 40) {
                                 handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                 Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
                                 finish();
@@ -90,7 +90,7 @@ public class Procesando_entrega extends AppCompatActivity {
                             public void run() {
                                 intetar_entregar_bici();
                                 contador++;
-                                if (contador >= 12) {
+                                if (contador >= 40) {
                                     handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
                                     Toast.makeText(getApplicationContext(), "No se ha podido entregar la bicicleta", Toast.LENGTH_LONG).show();
                                     finish();
@@ -108,7 +108,7 @@ public class Procesando_entrega extends AppCompatActivity {
 
     Handler handler = new Handler();
     Runnable runnable;
-    int delay = 3 * 1000; //Delay for 2 seconds.  One second = 1000 milliseconds.
+    int delay = 2 * 1000; //Delay for 2 seconds.  One second = 1000 milliseconds.
     int contador = 0;
 
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Estacion;
 import app.admin.com.biciapp.ui.login.LoginClienteView;

@@ -1,10 +1,8 @@
 package app.admin.com.biciapp.ui.map_estaciones;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +11,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 
 
 public class InfoAdapter implements GoogleMap.InfoWindowAdapter {
@@ -29,8 +27,8 @@ public class InfoAdapter implements GoogleMap.InfoWindowAdapter {
     public View getInfoWindow(Marker marker) {
         if (marker != null) {
             View v = inflater.inflate(R.layout.info_layout, null);
-            bike_icon = (ImageView) v.findViewById(R.id.busicon);
-            bike_icon.setImageResource(R.drawable.ic_action_name);
+            //bike_icon = (ImageView) v.findViewById(R.id.busicon);
+            //bike_icon.setImageResource(R.drawable.ic_action_name);
             textViewstopName = (TextView) v.findViewById(R.id.businfo);
             textViewstopName.setText(marker.getTitle());
             arrivalTime = (TextView) v.findViewById(R.id.arrivalinfo);

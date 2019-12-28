@@ -10,7 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import app.admin.com.biciapp.ui.login.LoginActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 
 public class InformacionActivity extends AppCompatActivity {
 

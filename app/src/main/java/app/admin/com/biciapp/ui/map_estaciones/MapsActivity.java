@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Estacion;
 import app.admin.com.biciapp.ui.login.LoginClienteView;
 

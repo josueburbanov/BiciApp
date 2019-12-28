@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Cliente;
 
 public class RegistroActivity extends AppCompatActivity {

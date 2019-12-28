@@ -11,7 +11,7 @@ import app.admin.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucion
 import app.admin.com.biciapp.ui.login.LoginActivity;
 import app.admin.com.biciapp.ui.login.LoginClienteView;
 import app.admin.com.biciapp.ui.reserva.ReservaActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Reserva;
 

@@ -20,7 +20,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import app.admin.com.biciapp.ui.registro.RegistroActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Cliente;
 import app.admin.com.biciapp.ui.main.MainActivity;
 

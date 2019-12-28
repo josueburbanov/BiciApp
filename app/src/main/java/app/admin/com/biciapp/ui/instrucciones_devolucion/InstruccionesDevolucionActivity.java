@@ -8,9 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,13 +30,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Candado;
 import app.admin.com.biciapp.datos.modelos.Estacion;
@@ -200,6 +206,7 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             LatLng posicion = new LatLng(latitude, longitude);
             Marker amarker = mMap.addMarker(new MarkerOptions().position(posicion).title("Tú estás aquí"));
             amarker.setTitle("Tú estás aquí");
+            amarker.setIcon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_location_on_black_24dp));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(posicion));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(20.0f));
             amarker.showInfoWindow();
@@ -209,6 +216,7 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
             amarker.setTitle("Estación: " + estacion.getNombre());
             amarker.setSnippet(estacion.getDireccion() + "\nCandados disponibles: " + candadosEstacion.size());
             amarker.setTag(candadosEstacion.get(0));
+            amarker.setIcon(bitmapDescriptorFromVector1(getApplicationContext(), R.drawable.ic_action_name));
         }
     }
 
@@ -327,6 +335,30 @@ public class InstruccionesDevolucionActivity extends AppCompatActivity implement
         intent.putExtra(CANDADO_VIEW, candadoView);
         intent.putExtra(BICICLETA_VIEW, bicicletaView);
         startActivity(intent);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_location_on_black_24dp);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector1(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_action_name);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
 

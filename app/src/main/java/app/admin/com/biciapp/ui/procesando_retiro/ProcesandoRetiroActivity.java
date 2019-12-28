@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ import app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
 import app.admin.com.biciapp.ui.instrucciones_devolucion.InstruccionesDevolucionActivity;
 import app.admin.com.biciapp.ui.instrucciones_retiro.InstruccionRetiroViewModelFactory;
 import app.admin.com.biciapp.ui.procesando_entrega.ProcesandoEntregaViewModelFactory;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.BiciCandado;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Candado;
@@ -62,12 +63,9 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if (biciCandado != null && biciCandado.getEntregaRetiro() && biciCandado.getError() == null) {
-
+                    viewModel.getLastTransaccion().removeObserver(this);
                     BiciCandado transaccionParcial = new BiciCandado();
                     transaccionParcial.setError("Retiro parcial");
-                    //xxxxxxxxxxxxxxxxxx
-                    //transaccionParcial.setIdCandado("canda01");
-                    //xxxxxxxxxxxxxxxxxx
                     transaccionParcial.setIdCandado(candadoView.getId());
                     transaccionParcial.setEntregaRetiro(true);
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -76,7 +74,7 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                     transaccionParcial.setFechaHora(sdt);
                     transaccionParcial.setIdBici(bicicletaView.getId());
                     viewModel.realizarTransaccionParcial(transaccionParcial);
-                    viewModel.getLastTransaccion().removeObserver(this);
+
                 }else if(!biciCandado.getEntregaRetiro() && !reservaView.isActiva()) {
 
                     new AlertDialog.Builder(ProcesandoRetiroActivity.this)
@@ -100,19 +98,22 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
                             })
                             .show();
                 }
-                 else{
-                    handler.postDelayed(runnable = new Runnable() {
+                else{
+                    viewModel.getLastTransaccion().removeObserver(this);
+                    /*handler.postDelayed(runnable = new Runnable() {
                         public void run() {
-                            intetar_retirar_bici();
-                            contador++;
-                            if (contador >= 6) {
-                                handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
-                                Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
-                                finish();
+                            if(!intetar_retirar_bici()){
+                                contador++;
+                                if (contador >= 40) {
+                                    handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
+                                    Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                                handler.postDelayed(runnable, delay);
                             }
-                            handler.postDelayed(runnable, delay);
                         }
                     }, delay);
+                     */
                 }
             }
         });
@@ -123,20 +124,25 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if (biciCandado != null) {
                     if (biciCandado.getError() != null || biciCandado.getEntregaRetiro()) {
+                        viewModel.getTransaccion().removeObserver(this);
                         handler.postDelayed(runnable = new Runnable() {
                             public void run() {
-                                intetar_retirar_bici();
-                                contador++;
-                                if (contador >= 40) {
-                                    handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
-                                    Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
-                                    finish();
+                                if(!intetar_retirar_bici()){
+                                    contador++;
+                                    if (contador >= 40) {
+                                        handler.removeCallbacks(runnable); //parar el handler cuando ha intentando por un tiempo
+                                        Toast.makeText(getApplicationContext(), "No se ha podido retirar la bicicleta", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                    handler.postDelayed(runnable, delay);
                                 }
-                                handler.postDelayed(runnable, delay);
+
                             }
                         }, delay);
 
                     }
+                }else{
+                    viewModel.getTransaccion().removeObserver(this);
                 }
             }
         });
@@ -147,10 +153,11 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
     Runnable runnable;
     int delay = 2 * 1000; //Delay for 2 seconds.  One second = 1000 milliseconds.
     int contador = 0;
+    boolean respuesta = false;
 
+    private synchronized boolean intetar_retirar_bici() {
 
-    private void intetar_retirar_bici() {
-        InstruccionesRetiroViewModel viewModel = ViewModelProviders.of(this, new InstruccionRetiroViewModelFactory())
+        final InstruccionesRetiroViewModel viewModel = ViewModelProviders.of(this, new InstruccionRetiroViewModelFactory())
                 .get(InstruccionesRetiroViewModel.class);
         viewModel.obtenerBiciEstacion(bicicletaView.getId());
         viewModel.getBiciEstacion().observe(this, new Observer<BiciCandado>() {
@@ -158,18 +165,28 @@ public class ProcesandoRetiroActivity extends AppCompatActivity {
             public void onChanged(@Nullable BiciCandado biciCandado) {
                 if(biciCandado!= null) {
                     if (!biciCandado.getEntregaRetiro() && biciCandado.getError() == null && biciCandado.getStatusEntregaRecepcion()) {
+                        viewModel.getBiciEstacion().removeObserver(this);
                         Toast.makeText(getApplicationContext(), "Bicicleta retirada con éxito!", Toast.LENGTH_LONG).show();
                         handler.removeCallbacks(runnable);
+                        Log.d("Testeando","ando");
+                        respuesta = true;
+                        finish();
                         Intent intent = new Intent(getApplicationContext(), RodandoBiciActivity.class);
                         intent.putExtra(ESTACION_VIEW, estacionView);
                         intent.putExtra(CLIENT_VIEW, clienteView);
                         intent.putExtra(RESERVA_VIEW,  reservaView);
                         intent.putExtra(EstacionBicicletasActivity.BICICLETA_VIEW, bicicletaView);
                         startActivity(intent);
+                    }else{
+                        viewModel.getBiciEstacion().removeObserver(this);
                     }
+                }else{
+                    viewModel.getBiciEstacion().removeObserver(this);
                 }
+
             }
         });
+        return respuesta;
     }
 
 

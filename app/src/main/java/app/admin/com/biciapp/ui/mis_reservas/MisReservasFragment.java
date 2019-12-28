@@ -21,7 +21,7 @@ import java.util.List;
 import app.admin.com.biciapp.ui.bicicletas_estacion.EstacionBicicletasActivity;
 import app.admin.com.biciapp.ui.instrucciones_retiro.InstruccionesRetiroActivity;
 import app.admin.com.biciapp.ui.map_estaciones.MapsActivity;
-import app.josueburbano.com.biciapp.R;
+import app.admin.com.biciapp.R;
 import app.admin.com.biciapp.datos.modelos.Bicicleta;
 import app.admin.com.biciapp.datos.modelos.Estacion;
 import app.admin.com.biciapp.datos.modelos.Reserva;

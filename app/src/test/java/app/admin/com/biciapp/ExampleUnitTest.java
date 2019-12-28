@@ -1,4 +1,4 @@
-package app.josueburbano.com.biciapp;
+package app.admin.com.biciapp;
 
 import org.junit.Test;
 
